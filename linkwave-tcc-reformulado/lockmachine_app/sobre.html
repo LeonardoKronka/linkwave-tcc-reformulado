@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LockMachine: controle de acesso a máquinas industriais por RFID e validação de capacitação.">
+  <title>LockMachine | Segurança industrial inteligente</title>
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="project-page">
+  <header class="project-nav" data-project-nav>
+    <a class="lock-brand" href="#inicio"><span class="lock-icon"></span><strong>Lock<span>Machine</span></strong></a>
+    <button class="mobile-menu" type="button" aria-label="Abrir menu" aria-expanded="false" data-project-menu-button><i></i><i></i></button>
+    <nav data-project-menu>
+      <a href="#sobre">O projeto</a>
+      <a href="#funcionamento">Como funciona</a>
+      <a href="#beneficios">Benefícios</a>
+      <a class="back-link" href="../institucional/index.html">LinkWave ↗</a>
+      <a class="login-link" href="tela_de_login.html">Acessar demonstração</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="lock-hero" id="inicio">
+      <div class="lock-hero-overlay"></div>
+      <div class="lock-hero-content reveal">
+        <p class="lock-eyebrow"><span></span> Segurança industrial conectada</p>
+        <h1>A máquina certa.<br><em>O operador certo.</em></h1>
+        <p>Uma proposta de controle de acesso que utiliza RFID para verificar a capacitação do operador antes da liberação de uma máquina industrial.</p>
+        <div class="lock-actions">
+          <a class="lock-button primary" href="tela_de_login.html">Acessar demonstração <span>→</span></a>
+          <a class="lock-button secondary" href="#sobre">Entender o projeto</a>
+        </div>
+      </div>
+      <div class="hero-status"><i></i><div><small>PROTÓTIPO</small><strong>Controle por RFID</strong></div></div>
+    </section>
+
+    <section class="project-about lock-section" id="sobre">
+      <div class="lock-container about-grid">
+        <div class="sticky-title reveal">
+          <p class="section-code">01 — O PROJETO</p>
+          <h2>Prevenção antes da operação.</h2>
+        </div>
+        <div class="project-copy reveal">
+          <p class="large-copy">O LockMachine foi pensado para reduzir o risco de uma máquina ser utilizada por alguém sem a capacitação necessária.</p>
+          <p>O crachá RFID identifica o operador. Em seguida, o sistema consulta seus treinamentos e compara as informações com a exigência definida para a máquina.</p>
+          <p>Se todas as condições forem atendidas, o acesso é liberado. Caso exista alguma irregularidade, a máquina permanece bloqueada e a tentativa pode ser registrada.</p>
+          <div class="project-definition">
+            <span>RFID</span><i></i><span>Capacitação</span><i></i><span>Decisão</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-section lock-section" id="funcionamento">
+      <div class="lock-container">
+        <div class="section-head reveal"><p class="section-code light">02 — COMO FUNCIONA</p><h2>Três etapas.<br>Uma decisão segura.</h2></div>
+        <div class="steps-grid">
+          <article class="step-card reveal"><span>01</span><div class="step-symbol">RF</div><h3>Identificação</h3><p>O operador aproxima o crachá do leitor RFID instalado na máquina.</p></article>
+          <article class="step-card reveal"><span>02</span><div class="step-symbol">✓</div><h3>Verificação</h3><p>O sistema confere cadastro, autorização e validade da capacitação exigida.</p></article>
+          <article class="step-card reveal"><span>03</span><div class="step-symbol split"><b></b></div><h3>Liberação ou bloqueio</h3><p>A máquina recebe a decisão de acordo com a situação encontrada.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefits lock-section" id="beneficios">
+      <div class="lock-container benefits-grid">
+        <div class="section-head reveal"><p class="section-code">03 — BENEFÍCIOS</p><h2>Mais controle para quem supervisiona. Mais proteção para quem opera.</h2></div>
+        <div class="benefits-list reveal">
+          <article><span>01</span><div><h3>Prevenção</h3><p>Ajuda a impedir operações incompatíveis com a capacitação registrada.</p></div></article>
+          <article><span>02</span><div><h3>Rastreabilidade</h3><p>Organiza as tentativas de acesso e facilita o acompanhamento pelo supervisor.</p></div></article>
+          <article><span>03</span><div><h3>Automação</h3><p>Transforma uma regra de segurança em uma verificação rápida e padronizada.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-cta lock-section">
+      <div class="lock-container demo-cta-content reveal">
+        <div><p class="lock-eyebrow"><span></span> Demonstração do sistema</p><h2>Veja a ideia<br>em funcionamento.</h2></div>
+        <a class="lock-button light" href="tela_de_login.html">Ir para o login <span>→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lock-footer"><div class="lock-brand"><span class="lock-icon"></span><strong>Lock<span>Machine</span></strong></div><p>Projeto desenvolvido pela LinkWave • TCC SENAI 2026</p><a href="../institucional/index.html">Voltar à LinkWave</a></footer>
+  <script src="script.js"></script>
+</body>
+</html>
