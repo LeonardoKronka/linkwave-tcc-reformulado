@@ -4,33 +4,37 @@ Projeto de TCC do SENAI (2026). A **LinkWave** é a nossa equipe, e o **LockMach
 
 ## O problema
 
-Em uma fábrica, uma máquina pode acabar sendo operada por alguém que não tem o treinamento exigido para ela, ou cujo treinamento já venceu. Isso coloca pessoas e processos em risco.
+Um controle de acesso comum confere quem é a pessoa. Não confere se ela foi treinada para aquela máquina, nem se o treinamento ainda vale. A NR-12 determina que a operação de máquinas seja feita por trabalhadores habilitados, qualificados ou capacitados, e autorizados para isso (item 12.16.1).
 
 ## A proposta
 
-O LockMachine verifica a capacitação **antes** de a máquina ser liberada:
+O LockMachine faz três conferências **antes** de a máquina ligar:
 
-1. **Identificação** — o operador aproxima o crachá RFID do leitor instalado na máquina.
-2. **Verificação** — o sistema confere cadastro, autorização e validade da capacitação exigida.
-3. **Liberação ou bloqueio** — a máquina é liberada ou permanece bloqueada, e a tentativa fica registrada para o supervisor.
+1. **Identificação**: o operador aproxima o crachá RFID do leitor instalado na máquina.
+2. **Capacitação exigida**: o sistema confere se a capacitação que aquela máquina exige consta no cadastro do operador.
+3. **Validade**: treinamento vencido não libera.
+
+Se as três passam, a máquina é liberada. Se falta uma, ela permanece bloqueada e a tentativa fica registrada para o supervisor.
 
 ## O que há neste repositório
 
-O front-end do projeto, feito somente com HTML, CSS e JavaScript:
+O front-end do projeto, feito com HTML, CSS e JavaScript, sem etapa de build:
 
 | Parte | Pasta | Páginas |
 | --- | --- | --- |
 | Site institucional da LinkWave | `linkwave-tcc-reformulado/institucional/` | `index.html`, `projetos.html` |
 | Apresentação e demonstração do LockMachine | `linkwave-tcc-reformulado/lockmachine_app/` | `sobre.html`, `tela_de_login.html`, `dashboard.html` |
+| Base compartilhada | `linkwave-tcc-reformulado/assets/` | estilos, scripts, fontes e a biblioteca GSAP |
 
 ### Estado atual
 
-Esta fase é uma **demonstração visual**:
+Esta fase é uma **demonstração**:
 
-- O login aceita qualquer e-mail válido e qualquer senha, e leva ao dashboard. Não há autenticação real.
-- Os dados do dashboard (operadores, máquinas, acessos) são ilustrativos e estão fixos na página.
+- A página do LockMachine tem um simulador do leitor: você escolhe um crachá e uma máquina fictícios e vê a decisão e o motivo. A regra de verificação é real e está em JavaScript; operadores, máquinas e datas são fictícios.
+- O login aceita qualquer e-mail válido e qualquer senha. Não há autenticação.
+- Os dados do painel são ilustrativos. As tentativas que você faz no simulador aparecem nele durante a mesma sessão do navegador.
 - As telas "Acessos", "Máquinas" e "Operadores" ainda não foram construídas.
-- A integração com o leitor RFID e com o banco de dados ainda não faz parte deste repositório.
+- O leitor RFID físico, o banco de dados e o back-end ainda não existem.
 
 ## Como abrir
 
@@ -42,27 +46,37 @@ Esta fase é uma **demonstração visual**:
 3. Instale a extensão **Live Server**.
 4. Clique com o botão direito em `linkwave-tcc-reformulado/index.html` e escolha **Open with Live Server**.
 
-Não é necessário instalar Node.js, banco de dados, PHP ou TypeScript.
+Não é necessário instalar Node.js, banco de dados, PHP ou TypeScript. O site funciona sem internet: fontes e biblioteca de animação estão dentro do projeto.
 
 ## Estrutura
 
 ```text
 linkwave-tcc-reformulado/
 ├── index.html                  entrada: redireciona para o site institucional
+├── assets/
+│   ├── css/base.css            sistema visual: cores, tipos, placas, botões
+│   ├── js/base.js              menu e movimento de entrada das listas
+│   ├── fonts/                  Archivo e Martian Mono (com as licenças)
+│   └── vendor/gsap/            GSAP e ScrollTrigger
 ├── institucional/
 │   ├── index.html              site da LinkWave
 │   ├── projetos.html           projeto em destaque
-│   ├── style.css               visual da LinkWave
-│   ├── script.js               menu e animações
+│   ├── style.css               o que é só da LinkWave
 │   └── img/
 └── lockmachine_app/
-    ├── sobre.html              apresentação do LockMachine
+    ├── sobre.html              apresentação e simulador do LockMachine
     ├── tela_de_login.html      login demonstrativo
-    ├── dashboard.html          dashboard demonstrativo
-    ├── style.css               visual do LockMachine
-    ├── script.js               menu, login e data do dashboard
+    ├── dashboard.html          painel demonstrativo
+    ├── style.css               o que é só do LockMachine
+    ├── script.js               simulador, registro, login e painel
     └── img/
 ```
+
+## Documentos do projeto
+
+- [PRODUCT.md](PRODUCT.md): o que é o produto, para quem, e o que existe de verdade hoje.
+- [DESIGN.md](DESIGN.md): o sistema visual, baseado em placas de segurança industrial.
+- [docs/estrategia.md](docs/estrategia.md): posicionamento, riscos e caminhos para a próxima etapa.
 
 ## Equipe
 
@@ -74,9 +88,14 @@ linkwave-tcc-reformulado/
 | Evelyn | Front-end |
 | Gabriel | Documentação |
 
+## Créditos e licenças
+
+- [GSAP](https://gsap.com) 3.15.0, sob a licença padrão gratuita da GreenSock.
+- Fontes [Archivo](https://fonts.google.com/specimen/Archivo) e [Martian Mono](https://fonts.google.com/specimen/Martian+Mono), sob a SIL Open Font License. Os textos das licenças estão em `linkwave-tcc-reformulado/assets/fonts/`.
+
 ## Próximos passos
 
 - Publicar o site com GitHub Pages
+- Montar um protótipo físico mínimo: um leitor RFID, uma máquina, uma decisão de verdade
 - Construir as telas de Acessos, Máquinas e Operadores
-- Tornar o dashboard dinâmico, lendo os dados em vez de mantê-los fixos na página
-- Integrar o leitor RFID e o banco de dados
+- Criar o back-end e o banco de dados, e ligar o painel a eles

@@ -3,40 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Acesso à demonstração do dashboard LockMachine.">
-  <title>Login | LockMachine</title>
+  <meta name="description" content="Acesso à demonstração do painel do supervisor do LockMachine.">
+  <meta name="theme-color" content="#131614">
+  <title>Acesso restrito | LockMachine</title>
   <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="preload" href="../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="login-page">
-  <main class="login-shell">
-    <a class="login-back" href="sobre.html">← Voltar ao projeto</a>
-    <section class="login-intro">
-      <div class="lock-brand large"><span class="lock-icon"></span><strong>Lock<span>Machine</span></strong></div>
-      <p>Sistema de controle de acesso para máquinas industriais.</p>
-    </section>
+<body class="lockmachine login-page">
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="sobre.html"><span class="brand-mark brand-mark--lock" aria-hidden="true"></span>LockMachine</a>
+      <nav class="nav" aria-label="Navegação">
+        <a href="sobre.html"><span class="icon icon--back" aria-hidden="true"></span>O projeto</a>
+      </nav>
+    </div>
+  </header>
 
-    <section class="login-panel">
-      <div class="login-card">
-        <p class="section-code">ÁREA RESTRITA</p>
-        <h1>Acesse a demonstração.</h1>
-        <p class="login-description">Esta tela representa o acesso do administrador ou supervisor ao painel do sistema.</p>
-
-        <form data-demo-login>
-          <label for="email">E-mail corporativo</label>
-          <input id="email" name="email" type="email" placeholder="supervisor@empresa.com" required autocomplete="email">
-
-          <label for="senha">Senha</label>
-          <input id="senha" name="senha" type="password" placeholder="Digite sua senha" required autocomplete="current-password">
-
-          <p class="form-message" role="alert" data-form-message></p>
-          <button class="login-submit" type="submit">Entrar no sistema <span>→</span></button>
-        </form>
-
-        <div class="demo-note"><span>i</span><p><strong>Modo demonstração</strong>Preencha os dois campos com qualquer informação válida.</p></div>
+  <main class="login-main" id="conteudo">
+    <section class="login-sign">
+      <div class="login-head">
+        <h1 class="sign-word">Acesso restrito</h1>
+        <p>Painel de supervisores e administradores.</p>
       </div>
+
+      <form class="login-body" data-demo-login>
+        <div class="field">
+          <label class="label" for="email">E-mail corporativo</label>
+          <input id="email" name="email" type="email" placeholder="supervisor@empresa.com" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label class="label" for="senha">Senha</label>
+          <input id="senha" name="senha" type="password" placeholder="Digite sua senha" required autocomplete="current-password">
+        </div>
+
+        <p class="form-error" role="alert" data-form-message></p>
+        <button class="button login-submit" type="submit">Entrar no painel<span class="icon icon--arrow" aria-hidden="true"></span></button>
+
+        <p class="notice"><span class="icon icon--warn" aria-hidden="true"></span><span>Modo demonstração: preencha com qualquer e-mail válido e qualquer senha. Não há autenticação nesta fase.</span></p>
+      </form>
     </section>
   </main>
+
   <script src="script.js"></script>
 </body>
 </html>

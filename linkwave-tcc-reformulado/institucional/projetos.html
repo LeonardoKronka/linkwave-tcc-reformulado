@@ -4,39 +4,63 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Conheça o LockMachine, projeto de segurança industrial desenvolvido pela LinkWave.">
+  <meta name="theme-color" content="#131614">
   <title>Projeto LockMachine | LinkWave</title>
   <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="preload" href="../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="projects-page">
-  <header class="navbar navbar-dark" data-navbar>
-    <a class="brand" href="index.html"><span class="brand-symbol"><i></i><i></i><i></i></span><span class="brand-name">Link<span>Wave</span></span></a>
-    <nav class="nav-links simple-nav"><a href="index.html">← Voltar ao site</a></nav>
+<body class="linkwave">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark brand-mark--bars" aria-hidden="true"><i></i><i></i><i></i></span>LinkWave</a>
+      <nav class="nav" aria-label="Navegação">
+        <a href="index.html"><span class="icon icon--back" aria-hidden="true"></span>Voltar ao site</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <section class="projects-hero">
-      <div class="projects-hero-content reveal">
-        <p class="eyebrow"><span></span> Projeto em destaque</p>
-        <h1>Uma solução para tornar o acesso a máquinas <em>mais seguro.</em></h1>
-        <p>Conheça o projeto que representa a proposta da LinkWave para a segurança no ambiente industrial.</p>
+  <main id="conteudo">
+    <section class="band band--must band--compact">
+      <div class="wrap">
+        <h1 class="sign-title">
+          <span class="sign-word">Projeto</span>
+          <span class="sign-message">Uma solução para tornar o acesso a máquinas mais seguro.</span>
+        </h1>
+        <p class="prose projects-lead">Conheça o projeto que representa a proposta da LinkWave para a segurança no ambiente industrial.</p>
       </div>
     </section>
 
-    <section class="featured-project section">
-      <a class="featured-card reveal" href="../lockmachine_app/sobre.html">
-        <div class="featured-image"><span class="project-chip">RFID • SEGURANÇA INDUSTRIAL</span></div>
-        <div class="featured-info">
-          <p>Projeto 01</p>
-          <h2>LockMachine</h2>
-          <span>Controle de acesso baseado na capacitação do operador.</span>
-          <strong>Conhecer o projeto →</strong>
-        </div>
-      </a>
+    <section class="band">
+      <div class="wrap">
+        <a class="plate plate--stop featured" href="../lockmachine_app/sobre.html">
+          <div class="symbol" aria-hidden="true">
+            <svg viewBox="0 0 120 120">
+              <circle class="s-white" cx="60" cy="60" r="58"/>
+              <path class="l-ink" stroke-width="9" stroke-linecap="round" d="M60 31v27M43 42a25 25 0 1 0 34 0"/>
+              <circle class="l-red" cx="60" cy="60" r="48.5" stroke-width="11"/>
+              <path class="l-red" stroke-width="11" d="M26 26l68 68"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="plate-word">LockMachine</h2>
+            <p>Controle de acesso baseado na capacitação do operador.</p>
+            <p class="label">RFID · Segurança industrial</p>
+            <span class="button">Conhecer o projeto<span class="icon icon--arrow" aria-hidden="true"></span></span>
+          </div>
+        </a>
+      </div>
     </section>
   </main>
 
-  <footer class="footer footer-dark"><div class="footer-brand"><span>Link</span>Wave</div><p>Projeto de TCC — SENAI • 2026</p><a href="index.html">Site institucional</a></footer>
-  <script src="script.js"></script>
+  <footer class="band band--ink footer">
+    <div class="wrap footer-inner">
+      <a class="brand" href="index.html"><span class="brand-mark brand-mark--bars" aria-hidden="true"><i></i><i></i><i></i></span>LinkWave</a>
+      <p>Projeto de TCC · SENAI · 2026</p>
+      <a href="index.html">Site institucional<span class="icon icon--arrow" aria-hidden="true"></span></a>
+    </div>
+  </footer>
 </body>
 </html>

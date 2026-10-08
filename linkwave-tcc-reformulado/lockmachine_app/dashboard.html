@@ -3,58 +3,145 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Demonstração visual do dashboard LockMachine.">
-  <title>Dashboard de demonstração | LockMachine</title>
+  <meta name="description" content="Demonstração do painel do supervisor do LockMachine, com dados ilustrativos.">
+  <meta name="theme-color" content="#131614">
+  <title>Visão geral | Painel LockMachine</title>
   <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="preload" href="../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="dashboard-page">
-  <aside class="demo-sidebar" data-dashboard-sidebar>
-    <div class="sidebar-top"><div class="lock-brand"><span class="lock-icon"></span><strong>Lock<span>Machine</span></strong></div><button type="button" data-close-sidebar aria-label="Fechar menu">×</button></div>
-    <nav class="dashboard-nav">
-      <p>MENU PRINCIPAL</p>
-      <a class="active" href="#"><span>01</span> Visão geral</a>
-      <span class="future-link"><span>02</span> Acessos <i>Em breve</i></span>
-      <span class="future-link"><span>03</span> Máquinas <i>Em breve</i></span>
-      <span class="future-link"><span>04</span> Operadores <i>Em breve</i></span>
-    </nav>
-    <div class="sidebar-bottom"><div class="online-indicator"><i></i><div><strong>Modo demonstração</strong><small>Dados ilustrativos</small></div></div><a href="tela_de_login.html">← Sair do sistema</a></div>
-  </aside>
+<body class="lockmachine">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="app">
+    <aside class="rail" data-dashboard-sidebar>
+      <div class="rail-top">
+        <a class="brand" href="sobre.html"><span class="brand-mark brand-mark--lock" aria-hidden="true"></span>LockMachine</a>
+        <button class="rail-close" type="button" aria-label="Fechar menu" data-close-sidebar><span class="icon icon--close" aria-hidden="true"></span></button>
+      </div>
 
-  <div class="dashboard-overlay" data-close-sidebar></div>
-  <main class="demo-main">
-    <header class="demo-topbar">
-      <button class="sidebar-button" type="button" data-open-sidebar aria-label="Abrir menu">☰</button>
-      <div><p>LOCKMACHINE / DEMONSTRAÇÃO</p><h1>Visão geral</h1></div>
-      <div class="demo-user"><span>LS</span><div><strong>Leonardo Silva</strong><small>Supervisor</small></div></div>
-    </header>
+      <nav class="rail-nav" aria-label="Painel">
+        <a href="dashboard.html" aria-current="page">Visão geral</a>
+        <span class="rail-soon">Acessos <small>Em breve</small></span>
+        <span class="rail-soon">Máquinas <small>Em breve</small></span>
+        <span class="rail-soon">Operadores <small>Em breve</small></span>
+      </nav>
 
-    <div class="demo-content">
-      <section class="dashboard-heading"><div><p data-dashboard-date></p><h2>Resumo da operação</h2></div><span class="demo-badge">DADOS ILUSTRATIVOS</span></section>
+      <div class="rail-foot">
+        <p class="notice"><span class="icon icon--warn" aria-hidden="true"></span><span>Modo demonstração: os dados são ilustrativos.</span></p>
+        <a href="tela_de_login.html"><span class="icon icon--back" aria-hidden="true"></span>Sair do painel</a>
+      </div>
+    </aside>
+    <div class="rail-overlay" data-close-sidebar></div>
 
-      <section class="summary-grid">
-        <article><span>OP</span><p>Operadores ativos</p><strong>18</strong><small>de 20 cadastrados</small></article>
-        <article><span>MQ</span><p>Máquinas monitoradas</p><strong>08</strong><small>6 operacionais</small></article>
-        <article><span>OK</span><p>Acessos liberados hoje</p><strong>26</strong><small>validações concluídas</small></article>
-        <article class="alert-summary"><span>!</span><p>Acessos bloqueados</p><strong>03</strong><small>requerem atenção</small></article>
-      </section>
+    <div class="app-main">
+      <header class="app-top">
+        <button class="rail-open" type="button" aria-label="Abrir menu" aria-expanded="false" data-open-sidebar><span class="icon icon--menu" aria-hidden="true"></span></button>
+        <div>
+          <h1>Visão geral</h1>
+          <p data-dashboard-date></p>
+        </div>
+        <div class="app-user">
+          <span aria-hidden="true">LS</span>
+          <div><strong>Leonardo Silva</strong><small>Supervisor</small></div>
+        </div>
+      </header>
 
-      <section class="demo-grid">
-        <article class="demo-panel access-panel">
-          <div class="demo-panel-head"><div><h3>Últimas tentativas de acesso</h3><p>Registros recentes do sistema</p></div><span><i></i> Atualizado</span></div>
-          <div class="demo-table-wrap"><table><thead><tr><th>Horário</th><th>Operador</th><th>Máquina</th><th>Resultado</th></tr></thead><tbody><tr><td>14:32</td><td><strong>Marina Costa</strong><small>RFID 0182</small></td><td>Prensa 01</td><td><span class="table-status allowed">Liberado</span></td></tr><tr><td>14:18</td><td><strong>Carlos Souza</strong><small>RFID 0247</small></td><td>Torno 03</td><td><span class="table-status denied">Bloqueado</span></td></tr><tr><td>13:54</td><td><strong>Pedro Alves</strong><small>RFID 0115</small></td><td>Fresa 02</td><td><span class="table-status allowed">Liberado</span></td></tr><tr><td>13:41</td><td><strong>João Silva</strong><small>RFID 0093</small></td><td>Prensa 02</td><td><span class="table-status allowed">Liberado</span></td></tr></tbody></table></div>
-        </article>
+      <main class="app-content" id="conteudo">
+        <dl class="summary">
+          <div>
+            <dt class="label">Operadores ativos</dt>
+            <dd><strong>18</strong><span>de 20 cadastrados</span></dd>
+          </div>
+          <div>
+            <dt class="label">Máquinas monitoradas</dt>
+            <dd><strong>08</strong><span>6 operacionais</span></dd>
+          </div>
+          <div>
+            <dt class="label">Acessos liberados hoje</dt>
+            <dd><strong data-count="granted">26</strong><span>validações concluídas</span></dd>
+          </div>
+          <div class="is-alert">
+            <dt class="label">Acessos bloqueados hoje</dt>
+            <dd><strong data-count="denied">03</strong><span>requerem atenção</span></dd>
+          </div>
+        </dl>
 
-        <article class="demo-panel machines-panel">
-          <div class="demo-panel-head"><div><h3>Status das máquinas</h3><p>Situação neste momento</p></div></div>
-          <div class="machine-status-row"><span>P-01</span><div><strong>Prensa 01</strong><small>Galpão A</small></div><i class="machine-online">Operacional</i></div>
-          <div class="machine-status-row"><span>T-03</span><div><strong>Torno 03</strong><small>Usinagem</small></div><i class="machine-blocked">Bloqueada</i></div>
-          <div class="machine-status-row"><span>F-02</span><div><strong>Fresa 02</strong><small>Usinagem</small></div><i class="machine-online">Operacional</i></div>
-          <div class="machine-status-row"><span>P-02</span><div><strong>Prensa 02</strong><small>Galpão B</small></div><i class="machine-maintenance">Manutenção</i></div>
-        </article>
-      </section>
+        <div class="board">
+          <section class="sheet">
+            <div class="sheet-head">
+              <h2>Últimas tentativas de acesso</h2>
+              <p data-session-note>Registros recentes do sistema.</p>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="label" scope="col">Horário</th>
+                    <th class="label" scope="col">Operador</th>
+                    <th class="label" scope="col">Máquina</th>
+                    <th class="label" scope="col">Resultado</th>
+                  </tr>
+                </thead>
+                <tbody data-attempt-rows>
+                  <tr>
+                    <td class="data">14:32</td>
+                    <td><strong>Marina Costa</strong><small class="data">RFID 0182</small></td>
+                    <td>Prensa 01</td>
+                    <td><span class="status status--ok">Liberado</span></td>
+                  </tr>
+                  <tr>
+                    <td class="data">14:18</td>
+                    <td><strong>Carlos Souza</strong><small class="data">RFID 0247</small></td>
+                    <td>Torno 03</td>
+                    <td><span class="status status--blocked">Bloqueado</span></td>
+                  </tr>
+                  <tr>
+                    <td class="data">13:54</td>
+                    <td><strong>Pedro Alves</strong><small class="data">RFID 0115</small></td>
+                    <td>Fresa 02</td>
+                    <td><span class="status status--ok">Liberado</span></td>
+                  </tr>
+                  <tr>
+                    <td class="data">13:41</td>
+                    <td><strong>João Silva</strong><small class="data">RFID 0093</small></td>
+                    <td>Prensa 02</td>
+                    <td><span class="status status--ok">Liberado</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="sheet">
+            <div class="sheet-head">
+              <h2>Situação das máquinas</h2>
+              <p>Neste momento.</p>
+            </div>
+            <div class="machine-wall">
+              <article class="machine-plate">
+                <div><span class="data">P-01</span><strong>Prensa 01</strong><small>Galpão A</small></div>
+                <span class="machine-state label">Operacional</span>
+              </article>
+              <article class="machine-plate machine-plate--blocked">
+                <div><span class="data">T-03</span><strong>Torno 03</strong><small>Usinagem</small></div>
+                <span class="machine-state label">Bloqueada</span>
+              </article>
+              <article class="machine-plate">
+                <div><span class="data">F-02</span><strong>Fresa 02</strong><small>Usinagem</small></div>
+                <span class="machine-state label">Operacional</span>
+              </article>
+              <article class="machine-plate machine-plate--warn">
+                <div><span class="data">P-02</span><strong>Prensa 02</strong><small>Galpão B</small></div>
+                <span class="machine-state label">Manutenção</span>
+              </article>
+            </div>
+          </section>
+        </div>
+      </main>
     </div>
-  </main>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
