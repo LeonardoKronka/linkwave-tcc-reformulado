@@ -2,6 +2,8 @@
 
 Projeto feito somente com HTML, CSS e JavaScript.
 
+A descrição completa do projeto está no [README da raiz do repositório](../README.md). Este arquivo traz só as instruções rápidas de uso.
+
 ## Como abrir
 
 1. Abra esta pasta no VS Code.
