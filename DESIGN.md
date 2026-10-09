@@ -196,7 +196,7 @@ No painel do supervisor, a assinatura é a **situação das máquinas como um mu
 
 ## Motion
 
-O movimento conta que a placa é um objeto de verdade. Tudo é feito com GSAP e some com `prefers-reduced-motion`.
+O movimento conta que a placa é um objeto de verdade. Tudo é feito com GSAP e some com `prefers-reduced-motion`. Nesse caso, e só nele, o rodapé mostra a **chave das animações** (`.motion-switch`): uma frase dizendo que o computador pediu menos movimento e um botão vazado "Ligar animações". A escolha é da pessoa, fica guardada no navegador e pode ser desfeita no mesmo lugar.
 
 - **Fixação**: ao entrar, a moldura se desenha e os parafusos giram até apertar. Vale para a abertura e para cada faixa colorida.
 - **Plaquetas**: as letras da palavra de sinal giram no eixo horizontal, uma a uma. A mensagem sobe linha por linha de trás de uma máscara.
@@ -215,7 +215,7 @@ O movimento conta que a placa é um objeto de verdade. Tudo é feito com GSAP e 
 - Chamar demonstração de demonstração, em plaquinha amarela.
 - Dar a cada movimento um motivo vindo da placa ou do produto: fixar, girar, carimbar, ler o crachá.
 - Deixar o conteúdo visível sem JavaScript e sem movimento: a animação parte do estado pronto, nunca o substitui.
-- Respeitar `prefers-reduced-motion`: sem deslocamento, o estado muda na hora.
+- Respeitar `prefers-reduced-motion`: sem deslocamento, o estado muda na hora. Só a própria pessoa liga o movimento de volta, pela chave do rodapé.
 
 ### Don't:
 

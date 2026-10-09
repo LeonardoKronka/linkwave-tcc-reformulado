@@ -304,51 +304,54 @@
   font-weight: 600;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  /* O leitor chama: as ondas se propagam, o crachá balança no cordão */
-  .reader-waves i {
-    animation: wave 1.8s ease-out infinite;
-  }
+/* Movimento: só com a classe .motion na raiz (posta pelo head.js, ver base.css).
+   O :where() não soma peso ao seletor, então as regras valem o mesmo que as
+   outras e podem ser desligadas mais abaixo, como a linha tracejada no celular. */
 
-  .reader-waves i:nth-child(2) { animation-delay: 0.18s; }
-  .reader-waves i:nth-child(3) { animation-delay: 0.36s; }
-
-  .reader-pad:hover .reader-waves i {
-    animation-duration: 0.9s;
-  }
-
-  .badge-hang {
-    animation: sway 3.6s ease-in-out infinite alternate;
-  }
-
-  .reader-hint {
-    animation: march 0.9s linear infinite;
-  }
-
-  /* Fora da tela, tudo isso para */
-  .is-away .reader-waves i,
-  .is-away .badge-hang,
-  .is-away .reader-hint {
-    animation-play-state: paused;
-  }
-
-  @keyframes wave {
-    0%, 100% { opacity: 0.25; }
-    30% { opacity: 1; }
-  }
-
-  @keyframes sway {
-    from { rotate: -1.6deg; }
-    to { rotate: 1.6deg; }
-  }
-
-  @keyframes march {
-    to { background-position-x: 0.8rem; }
-  }
+/* O leitor chama: as ondas se propagam, o crachá balança no cordão */
+:where(.motion) .reader-waves i {
+  animation: wave 1.8s ease-out infinite;
 }
 
+:where(.motion) .reader-waves i:nth-child(2) { animation-delay: 0.18s; }
+:where(.motion) .reader-waves i:nth-child(3) { animation-delay: 0.36s; }
+
+:where(.motion) .reader-pad:hover .reader-waves i {
+  animation-duration: 0.9s;
+}
+
+:where(.motion) .badge-hang {
+  animation: sway 3.6s ease-in-out infinite alternate;
+}
+
+:where(.motion) .reader-hint {
+  animation: march 0.9s linear infinite;
+}
+
+/* Fora da tela, tudo isso para */
+.is-away .reader-waves i,
+.is-away .badge-hang,
+.is-away .reader-hint {
+  animation-play-state: paused;
+}
+
+@keyframes wave {
+  0%, 100% { opacity: 0.25; }
+  30% { opacity: 1; }
+}
+
+@keyframes sway {
+  from { rotate: -1.6deg; }
+  to { rotate: 1.6deg; }
+}
+
+@keyframes march {
+  to { background-position-x: 0.8rem; }
+}
+
+/* Sem movimento, a cor do veredito troca com uma passagem suave */
 @media (prefers-reduced-motion: reduce) {
-  .signal {
+  :where(:root:not(.motion)) .signal {
     transition: background-color 250ms;
   }
 }
@@ -1224,14 +1227,12 @@
 }
 
 /* A máquina bloqueada pede atenção: o sinal pulsa devagar */
-@media (prefers-reduced-motion: no-preference) {
-  .machine-plate--blocked .machine-state::before {
-    animation: alert 2s ease-in-out infinite;
-  }
+:where(.motion) .machine-plate--blocked .machine-state::before {
+  animation: alert 2s ease-in-out infinite;
+}
 
-  @keyframes alert {
-    50% { scale: 1.35; }
-  }
+@keyframes alert {
+  50% { scale: 1.35; }
 }
 
 @media (min-width: 56rem) {

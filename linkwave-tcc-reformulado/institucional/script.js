@@ -3,7 +3,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   if (!window.gsap || !window.ScrollTrigger) return;
 
-  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)", () => {
+  gsap.matchMedia().add(motion.query, () => {
     const center = "60 60";
     const whileVisible = (trigger) => ({ trigger, toggleActions: "play pause resume pause" });
 

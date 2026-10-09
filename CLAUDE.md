@@ -21,7 +21,7 @@ linkwave-tcc-reformulado/
   index.html                          só redireciona para institucional/index.html
   assets/
     css/base.css                      sistema visual: tokens, tipos, faixas, placas, material, fita
-    js/head.js                        carregado no <head>: marca .js e avisa transição entre páginas
+    js/head.js                        carregado no <head> de toda página: marca .js, decide o movimento (.motion) e avisa transição entre páginas
     js/base.js                        menu, moldura e parafusos, abertura, entradas, fita, mouse (GSAP)
     fonts/                            Archivo e Martian Mono, com as licenças OFL
     vendor/gsap/                      gsap, ScrollTrigger e SplitText (3.15.0)
@@ -44,6 +44,8 @@ Não há testes automatizados nem linter. A verificação é abrir no navegador,
 
 Com o painel do navegador do Claude oculto, as animações ficam pausadas e as capturas falham. Nesse caso, avance o relógio com `gsap.updateRoot(...)` e confira os estados pelo DOM; diga ao Leonardo que o movimento não foi visto rodando.
 
+Se o site abrir parado, confira primeiro o sistema: os computadores do SENAI costumam vir com os efeitos de animação do Windows desligados (Configurações → Acessibilidade → Efeitos visuais), e aí o navegador informa `prefers-reduced-motion: reduce`. Nesse caso o rodapé mostra a chave "Ligar animações" (ver Convenções do código).
+
 ## Sistema visual
 
 O mundo é a placa de segurança industrial. A cor nunca decora, sempre significa: vermelho proíbe, amarelo alerta, azul obriga, verde libera. Botões e links comuns são pretos ou brancos.
@@ -63,7 +65,9 @@ O mundo é a placa de segurança industrial. A cor nunca decora, sempre signific
 - Links entre páginas são sempre relativos.
 - GSAP é a única biblioteca (núcleo, ScrollTrigger e SplitText), e fica em arquivo local. Não adicionar outros plugins, bibliotecas, npm ou etapa de build sem o Leonardo pedir.
 - Movimento: o Leonardo pediu um site com vida (08/10/2026). Cada animação precisa vir da placa ou do produto: fixar, girar, carimbar, ler o crachá. A lista completa está na seção Motion do `DESIGN.md`.
-- O GSAP só anima quando `prefers-reduced-motion` permite (`gsap.matchMedia`). ScrollTrigger só em tween ou timeline de nível superior, sem `markers`. Depois de criar uma seção presa (`pin`), chamar `ScrollTrigger.sort()` e `ScrollTrigger.refresh()`.
+- O site só anima com a classe `.motion` na raiz. Quem a põe é o `head.js`: quando o sistema permite (`prefers-reduced-motion`), ou quando a pessoa liga as animações pela chave do rodapé (`[data-motion-switch]`, que só aparece se o sistema pede movimento reduzido; a escolha fica em `localStorage` e vale para todas as páginas). O Leonardo pediu essa chave em 09/10/2026, por causa dos computadores do SENAI.
+- Na CSS, movimento vai em seletor com `.motion` (use `:where(.motion)` quando o peso do seletor não pode mudar), nunca em `@media (prefers-reduced-motion: no-preference)`. No JavaScript, passe `motion.query` ao `gsap.matchMedia` no lugar dessa consulta, ou confira a classe `.motion`.
+- ScrollTrigger só em tween ou timeline de nível superior, sem `markers`. Depois de criar uma seção presa (`pin`), chamar `ScrollTrigger.sort()` e `ScrollTrigger.refresh()`.
 - Blocos que animam na abertura levam `data-intro`: a CSS os esconde até o script começar e os mostra sozinha depois de 3 segundos se o script falhar.
 - Animação declarada no HTML por atributos: `data-sign` (entrada da placa), `data-follow`, `data-mount`, `data-roll`, `data-wipe`, `data-tilt`, `data-tape`, `data-draw` (traço com `pathLength="1"`), `data-vt` (placa que viaja entre páginas).
 - A página precisa funcionar sem JavaScript: o menu fica aberto e o conteúdo aparece.

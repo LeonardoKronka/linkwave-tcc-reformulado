@@ -976,6 +976,22 @@ time,
   gap: 0.5em;
 }
 
+/* Chave das animações: uma linha própria no fim do rodapé. O base.js só a
+   mostra quando o sistema pede movimento reduzido. */
+.motion-switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  flex-basis: 100%;
+}
+
+.motion-switch .button {
+  min-height: 2.5rem;
+  padding-block: 0.4em;
+  font-size: var(--text-label);
+}
+
 /* Material: a placa é uma chapa esmaltada, não uma cor de tela ---------------- */
 .signal,
 .band--stop,
@@ -1141,59 +1157,65 @@ a:hover > .icon--up {
   translate: 0 -0.3em;
 }
 
-/* Movimento ----------------------------------------------------------------- */
+/* Movimento -----------------------------------------------------------------
+   A página só anima com a classe .motion na raiz. Quem a põe é o head.js,
+   quando o sistema permite movimento ou quando a pessoa liga as animações
+   pela chave do rodapé. */
+
+/* A abertura começa escondida e o base.js a revela animando. Se o script
+   falhar, a própria CSS mostra o conteúdo depois de 3 segundos. */
+.motion [data-intro] {
+  visibility: hidden;
+  animation: intro-failsafe 1ms linear 3s forwards;
+}
+
+.motion.vt [data-intro] {
+  visibility: visible;
+  animation: none;
+}
+
+/* O filete e os parafusos da abertura esperam a animação começar */
+.motion .signal:not(.is-open) > .frame,
+.motion .signal:not(.is-open) > .screws {
+  visibility: hidden;
+}
+
+@keyframes intro-failsafe {
+  to { visibility: visible; }
+}
+
+/* Transição entre páginas: a placa de proibido viaja de uma para a outra.
+   Aqui ela segue o sistema; com as animações ligadas pela chave do rodapé,
+   quem ativa é o head.js. */
 @media (prefers-reduced-motion: no-preference) {
-  /* A abertura começa escondida e o base.js a revela animando. Se o script
-     falhar, a própria CSS mostra o conteúdo depois de 3 segundos. */
-  .js [data-intro] {
-    visibility: hidden;
-    animation: intro-failsafe 1ms linear 3s forwards;
-  }
-
-  .js.vt [data-intro] {
-    visibility: visible;
-    animation: none;
-  }
-
-  /* O filete e os parafusos da abertura esperam a animação começar */
-  .js .signal:not(.is-open) > .frame,
-  .js .signal:not(.is-open) > .screws {
-    visibility: hidden;
-  }
-
-  @keyframes intro-failsafe {
-    to { visibility: visible; }
-  }
-
-  /* Transição entre páginas: a placa de proibido viaja de uma para a outra */
   @view-transition {
     navigation: auto;
   }
+}
 
-  .topbar {
-    view-transition-name: topbar;
-  }
+.topbar {
+  view-transition-name: topbar;
+}
 
-  [data-vt] {
-    view-transition-name: sign-stop;
-  }
+[data-vt] {
+  view-transition-name: sign-stop;
+}
 
-  ::view-transition-group(sign-stop) {
-    animation-duration: 650ms;
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  }
+::view-transition-group(sign-stop) {
+  animation-duration: 650ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-  ::view-transition-old(root) {
-    animation-duration: 250ms;
-  }
+::view-transition-old(root) {
+  animation-duration: 250ms;
+}
 
-  ::view-transition-new(root) {
-    animation-duration: 400ms;
-  }
+::view-transition-new(root) {
+  animation-duration: 400ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
+  html:not(.motion) {
     scroll-behavior: auto;
   }
 }

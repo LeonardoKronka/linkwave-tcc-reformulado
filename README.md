@@ -48,6 +48,8 @@ Esta fase é uma **demonstração**:
 
 Não é necessário instalar Node.js, banco de dados, PHP ou TypeScript. O site funciona sem internet: fontes e biblioteca de animação estão dentro do projeto.
 
+Se o site abrir parado, é porque o computador está configurado para reduzir animações (comum nos computadores do SENAI). No fim da página aparece o botão **Ligar animações**: a escolha fica guardada no navegador e vale para todas as páginas.
+
 ## Estrutura
 
 ```text

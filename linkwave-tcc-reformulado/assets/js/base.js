@@ -21,6 +21,27 @@ document.addEventListener("DOMContentLoaded", () => {
     menuButton.focus();
   });
 
+  // Chave das animações (rodapé) -----------------------------------------------
+  // Só aparece quando o sistema pede movimento reduzido: a pessoa pode ligar as
+  // animações por conta própria e desligar de novo. Quem decide e guarda a
+  // escolha é o head.js.
+  const motionSwitch = document.querySelector("[data-motion-switch]");
+
+  if (motionSwitch && motion.reducedBySystem) {
+    const status = motionSwitch.querySelector("[data-motion-status]");
+    const toggle = motionSwitch.querySelector("[data-motion-toggle]");
+
+    if (motion.forced) {
+      status.textContent = "Animações ligadas neste navegador.";
+      toggle.textContent = "Desligar animações";
+    }
+
+    toggle.addEventListener("click", () => {
+      if (!motion.force(!motion.forced)) status.textContent = "Este navegador não permite guardar a escolha.";
+    });
+    motionSwitch.hidden = false;
+  }
+
   // A placa como objeto: filete desenhável, parafusos e barra de progresso -------
   const SVG = "http://www.w3.org/2000/svg";
 
@@ -73,9 +94,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.SplitText) gsap.registerPlugin(SplitText);
   gsap.config({ nullTargetWarn: false });
 
+  // motion.query (do head.js) vale quando a página pode animar: o sistema
+  // permite, ou a pessoa ligou as animações pela chave do rodapé.
   const media = gsap.matchMedia();
 
-  media.add("(prefers-reduced-motion: no-preference)", () => {
+  media.add(motion.query, () => {
     // Desenha os traços marcados com data-draw (eles têm pathLength="1").
     const draw = (scope) => gsap.fromTo(
       scope.querySelectorAll("[data-draw]"),
@@ -295,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Reação ao mouse: só onde há cursor de verdade --------------------------------
-  media.add("(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)", () => {
+  media.add(`${motion.query} and (hover: hover) and (pointer: fine)`, () => {
     const cleanups = [];
     const on = (target, type, handler) => {
       target.addEventListener(type, handler);

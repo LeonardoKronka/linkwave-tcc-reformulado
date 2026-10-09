@@ -7,8 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const formatDate = (date) => new Intl.DateTimeFormat("pt-BR").format(date);
   const formatTime = (date) => new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" }).format(date);
 
-  // Só anima quando há GSAP e a pessoa não pediu movimento reduzido.
-  const motionOK = () => Boolean(window.gsap) && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Só anima quando há GSAP e a página pode se mover: o head.js põe a classe
+  // .motion quando o sistema permite ou a pessoa ligou as animações no site.
+  const motionOK = () => Boolean(window.gsap) && root.classList.contains("motion");
   if (window.gsap && window.SplitText) gsap.registerPlugin(SplitText);
 
   // Dados de demonstração: operadores, máquinas e datas são fictícios.
@@ -319,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const media = gsap.matchMedia();
 
     // Tela larga: a seção fica presa enquanto o crachá passa pelas conferências.
-    media.add("(min-width: 60rem) and (min-height: 34rem) and (prefers-reduced-motion: no-preference)", () => {
+    media.add(`(min-width: 60rem) and (min-height: 34rem) and ${motion.query}`, () => {
       // Distância do início do trilho até o centro de um disco.
       const at = (disc) => {
         const target = disc.getBoundingClientRect();
@@ -362,7 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Tela estreita: cada conferência acende quando entra na tela.
-    media.add("(max-width: 59.99rem) and (prefers-reduced-motion: no-preference), (max-height: 33.99rem) and (prefers-reduced-motion: no-preference)", () => {
+    media.add(`(max-width: 59.99rem) and ${motion.query}, (max-height: 33.99rem) and ${motion.query}`, () => {
       items.forEach((item, index) => {
         const trigger = { trigger: item, start: "top 78%", once: true };
         gsap.from(item, { opacity: 0.28, duration: 0.5, scrollTrigger: trigger });
