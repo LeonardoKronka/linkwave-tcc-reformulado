@@ -42,8 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
     motionSwitch.hidden = false;
   }
 
-  // A placa como objeto: filete desenhável, parafusos e barra de progresso -------
+  // A placa como objeto: filete duplo, parafusos e barra de progresso ------------
   const SVG = "http://www.w3.org/2000/svg";
+  const NOTCH = 0.85; // raio do arco que desvia do parafuso, em diâmetros de parafuso
+  const GAP = 0.28; // distância entre o filete grosso e o fino, na mesma medida
 
   const decoration = (tag, className) => {
     const node = document.createElement(tag);
@@ -52,26 +54,58 @@ document.addEventListener("DOMContentLoaded", () => {
     return node;
   };
 
+  // Quatro parafusos. A fenda (o <b>) é a parte que gira.
   const screws = () => {
     const group = decoration("span", "screws");
-    group.append(...Array.from({ length: 4 }, () => document.createElement("i")));
+    group.append(...Array.from({ length: 4 }, () => {
+      const head = document.createElement("i");
+      head.append(document.createElement("b"));
+      return head;
+    }));
     return group;
   };
 
-  document.querySelectorAll(".signal, .band--stop, .band--warn, .band--must, .band--safe").forEach((surface) => {
+  // Contorno de uma caixa que desvia dos quatro cantos com um arco. `offset` é a
+  // distância do centro do parafuso até o canto; `radius`, o raio do desvio.
+  const notched = (width, height, offset, radius) => {
+    const reach = offset + Math.sqrt(Math.max(radius ** 2 - offset ** 2, 0));
+    const arc = `A${radius} ${radius} 0 0 0`;
+    return `M${reach} 0H${width - reach}${arc} ${width} ${reach}V${height - reach}${arc} ${width - reach} ${height}H${reach}${arc} 0 ${height - reach}V${reach}${arc} ${reach} 0Z`;
+  };
+
+  // As medidas vêm da CSS: a caixa dos parafusos é a do filete, e cada parafuso
+  // já está no lugar. Aqui só se desenham as duas linhas em volta deles.
+  const drawFrame = (surface) => {
+    const box = surface.querySelector(":scope > .screws");
+    const head = box.firstElementChild;
+    const [thick, thin] = surface.querySelectorAll(":scope > .frame path");
+    const radius = head.offsetWidth * NOTCH;
+    const gap = head.offsetWidth * GAP;
+    thick.setAttribute("d", notched(box.offsetWidth, box.offsetHeight, head.offsetLeft, radius));
+    thin.setAttribute("d", notched(box.offsetWidth - 2 * gap, box.offsetHeight - 2 * gap, head.offsetLeft - gap, radius + gap));
+    thin.setAttribute("transform", `translate(${gap} ${gap})`);
+  };
+
+  // Quando a placa ou o parafuso mudam de tamanho, o filete é redesenhado.
+  const resized = new ResizeObserver((entries) => entries.forEach((entry) => drawFrame(entry.target.closest(".has-frame"))));
+
+  document.querySelectorAll(".signal, .band--stop, .band--warn, .band--must, .band--safe, .plate").forEach((surface) => {
     const frame = document.createElementNS(SVG, "svg");
-    const line = document.createElementNS(SVG, "rect");
+    const hardware = screws();
     frame.setAttribute("class", "frame");
     frame.setAttribute("aria-hidden", "true");
-    line.setAttribute("width", "100%");
-    line.setAttribute("height", "100%");
-    line.setAttribute("pathLength", "1");
-    frame.append(line);
+    frame.append(...["frame-line", "frame-line frame-line--thin"].map((className) => {
+      const line = document.createElementNS(SVG, "path");
+      line.setAttribute("class", className);
+      line.setAttribute("pathLength", "1");
+      return line;
+    }));
     surface.classList.add("has-frame");
-    surface.prepend(frame, screws());
+    surface.prepend(frame, hardware);
+    drawFrame(surface);
+    resized.observe(hardware);
+    resized.observe(hardware.firstElementChild);
   });
-
-  document.querySelectorAll(".plate").forEach((plate) => plate.prepend(screws()));
 
   const signal = document.querySelector(".signal");
   const progress = signal ? decoration("span", "progress") : null;
@@ -106,13 +140,23 @@ document.addEventListener("DOMContentLoaded", () => {
       { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut", stagger: 0.18 },
     );
 
-    // A placa é fixada: o filete se desenha e os parafusos giram até apertar.
+    // A placa é fixada: os dois filetes se desenham e os parafusos são apertados
+    // em cruz (um canto, depois o oposto), como numa chapa de verdade. Cada
+    // parafuso chega de fora e a fenda dá uma volta e meia até parar. A escala
+    // inicial não passa de 1.6 para o parafuso nunca sair da placa no celular.
     const mount = (surface) => {
       const timeline = gsap.timeline();
-      const line = surface.querySelector(":scope > .frame rect");
+      const lines = surface.querySelectorAll(":scope > .frame path");
       const heads = surface.querySelectorAll(":scope > .screws i");
-      if (line) timeline.fromTo(line, { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" }, 0);
-      if (heads.length) timeline.from(heads, { scale: 0, rotation: -300, duration: 0.7, ease: "power3.out", stagger: 0.08 }, 0.3);
+      if (lines.length) timeline.fromTo(lines, { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut", stagger: 0.12 }, 0);
+      [0, 3, 1, 2].forEach((corner, order) => {
+        const head = heads[corner];
+        if (!head) return;
+        const at = 0.35 + order * 0.13;
+        timeline
+          .from(head, { scale: 1.6, autoAlpha: 0, duration: 0.5, ease: "power3.out" }, at)
+          .from(head.firstElementChild, { rotation: -540, duration: 0.9, ease: "power3.out" }, at);
+      });
       return timeline;
     };
 
@@ -264,6 +308,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    // As chapas menores também são fixadas quando entram na tela.
+    gsap.utils.toArray(".plate").forEach((plate) => {
+      gsap.timeline({ scrollTrigger: { trigger: plate, start: "top 85%", once: true } }).add(mount(plate), 0.2);
+    });
+
     // Linhas de uma lista são reveladas da esquerda para a direita.
     gsap.utils.toArray("[data-wipe]").forEach((list) => {
       gsap.fromTo(list.children, { clipPath: "inset(0 100% 0 0)" }, {
@@ -328,6 +377,24 @@ document.addEventListener("DOMContentLoaded", () => {
     // Os símbolos balançam no parafuso quando o cursor passa.
     gsap.utils.toArray(".symbol, .sign-item-symbol, .signal-symbol").forEach((symbol) => {
       on(symbol, "pointerenter", () => gsap.to(symbol, { keyframes: { rotation: [0, -8, 6, -3, 0] }, duration: 0.8, ease: "power1.out", overwrite: "auto" }));
+    });
+
+    // Os parafusos dão meia-volta quando o cursor passa perto deles.
+    gsap.utils.toArray(".has-frame").forEach((surface) => {
+      const box = surface.querySelector(":scope > .screws");
+      const near = new Set();
+      on(surface, "pointermove", (event) => {
+        const area = surface.getBoundingClientRect();
+        const x = event.clientX - area.left - box.offsetLeft;
+        const y = event.clientY - area.top - box.offsetTop;
+        [...box.children].forEach((head) => {
+          const close = Math.hypot(x - head.offsetLeft, y - head.offsetTop) < head.offsetWidth * 3;
+          if (close && !near.has(head)) gsap.to(head.firstElementChild, { rotation: "+=180", duration: 0.7, ease: "power3.out" });
+          if (close) near.add(head);
+          else near.delete(head);
+        });
+      });
+      on(surface, "pointerleave", () => near.clear());
     });
 
     // As placas marcadas com data-tilt inclinam acompanhando o cursor.

@@ -53,7 +53,8 @@ O mundo é a placa de segurança industrial. A cor nunca decora, sempre signific
 - A palavra de sinal (`.sign-word`) é o título da seção; nunca use rótulo pequeno acima de título.
 - Situação sempre traz cor, forma e palavra (`.status`).
 - Todo trecho de demonstração leva um aviso amarelo (`.notice`).
-- A placa é uma chapa esmaltada: sombra curta (`--shadow-plate`), filete em relevo, parafusos e brilho. Nada de sombra dura, degradê em texto, vidro fosco ou foto escura de fábrica.
+- A placa é uma chapa esmaltada: sombra curta (`--shadow-plate`), filete duplo em relevo que desvia de cada parafuso, parafusos de aço e brilho. Nada de sombra dura, degradê em texto, vidro fosco ou foto escura de fábrica.
+- Nenhuma seção troca de cor numa linha reta: as placas têm os cantos de fora arredondados e se sobrepõem. Quando uma placa (colorida ou branca) vem logo antes de outra, ela leva `.band--under`. O grupo pediu isso, o filete e os parafusos novos em 09/10/2026.
 - Ícones são SVG desenhados (`.icon--*` em `base.css`); não use seta ou símbolo de teclado como ícone.
 - Fonte monoespaçada (`.data`) só para dado medido: RFID, horário, data, código.
 
@@ -83,7 +84,9 @@ O mundo é a placa de segurança industrial. A cor nunca decora, sempre signific
 
 ## Equipe
 
-Leonardo (Product Owner, dono deste repositório), Cauê (Scrum Master), João (Banco de Dados), Evelyn (Front-end), Gabriel (Documentação).
+Leonardo (Product Owner e full stack, dono deste repositório), Cauê (Scrum Master e back-end), João (banco de dados), Evelyn (front-end), Gabriel Miranda (documentação).
+
+O Leonardo faz com o Claude as mudanças de visual e de funcionalidade do site, mas o trabalho é em equipe: ele precisa repassar demandas ao resto do grupo. Ao planejar algo maior (banco de dados, back-end, telas novas, documentação), separe o que cabe a cada área em vez de resolver tudo sozinho.
 
 ## Git
 

@@ -134,6 +134,8 @@ Archivo (variável, com eixo de largura) faz todas as vozes. Martian Mono aparec
 
 Um contêiner de até 72rem com margem fluida. Cada seção é uma faixa de largura total. Placas com símbolo usam duas colunas (símbolo, texto) a partir de 52rem e empilham abaixo disso. A abertura ocupa a altura da tela e passa a duas colunas a partir de 60rem.
 
+**Chapas sobrepostas**: nenhuma seção troca de cor numa linha reta. As placas (coloridas, brancas e o rodapé) têm os cantos de fora arredondados e sombra (`--shadow-band`). Quando uma placa vem logo depois de outra, a de cima no HTML leva `.band--under`: termina reta e a cor dela aparece atrás dos cantos da seguinte, como chapas empilhadas. Só começam retas a abertura, a primeira faixa da página e a faixa logo abaixo da fita.
+
 No celular, a abertura do LockMachine põe os controles antes do texto de apoio, para a placa e o leitor caberem na mesma tela.
 
 O painel do supervisor segue a estrutura padrão da categoria: trilho lateral preto, barra de título, resumo, tabela e situação das máquinas. O trilho vira gaveta abaixo de 64rem.
@@ -143,7 +145,7 @@ O painel do supervisor segue a estrutura padrão da categoria: trilho lateral pr
 A placa é uma chapa esmaltada presa à parede, não uma cor de tela. A profundidade vem de quatro coisas, todas discretas:
 
 - **Esmalte**: toda superfície colorida leva uma luz vertical muito leve (mais clara em cima, mais escura embaixo) e um grão fino. As variáveis são `--enamel` e `--grain`.
-- **Sombra de chapa** (`--shadow-plate`): curta, deslocada para baixo e suave, em painéis, chapas, crachá e placas da equipe.
+- **Sombra de chapa** (`--shadow-plate`): curta, deslocada para baixo e suave, em painéis, chapas, crachá e placas da equipe. As faixas usam a `--shadow-band`, que também escurece um pouco a placa de baixo onde outra entra por cima.
 - **Filete em relevo** (`--relief`): a linha da moldura projeta uma sombra de 1px.
 - **Brilho**: uma faixa de luz atravessa a placa na abertura e a cada veredito, e um reflexo acompanha o cursor.
 
@@ -152,8 +154,8 @@ O painel do supervisor fica mais plano: só as placas de máquina têm sombra.
 ## Shapes
 
 - Cantos de 0,625rem em controles e de 0,75 a 1,25rem em placas.
-- **Filete interno**: toda faixa colorida e toda chapa têm uma linha na cor do texto, recuada da borda, como na moldura de uma placa real.
-- **Parafusos**: quatro, um em cada canto das faixas coloridas e das chapas, em aço. São postos pelo `base.js`.
+- **Filete duplo recortado**: toda faixa colorida e toda chapa têm duas linhas na cor do texto, uma grossa e uma fina, recuadas da borda. Em cada canto elas desviam do parafuso com um arco, como numa placa de identificação de máquina. É desenhado em SVG pelo `base.js`; sem JavaScript, vira uma borda dupla simples.
+- **Parafusos**: quatro, um em cada canto das faixas coloridas e das chapas. Arruela, cabeça de aço e fenda, em desenho vetorial (`--screw-head`) para ficarem nítidos: de 14 a 20px nas placas e 11px nas chapas pequenas. São postos pelo `base.js`.
 - Símbolos são geométricos e chapados, em SVG no próprio HTML: disco com barra, triângulo, disco azul com pictograma branco, quadrado verde.
 - Ícones de interface são SVG de traço único de 2,6, aplicados como máscara em `.icon`.
 
@@ -198,12 +200,12 @@ No painel do supervisor, a assinatura é a **situação das máquinas como um mu
 
 O movimento conta que a placa é um objeto de verdade. Tudo é feito com GSAP e some com `prefers-reduced-motion`. Nesse caso, e só nele, o rodapé mostra a **chave das animações** (`.motion-switch`): uma frase dizendo que o computador pediu menos movimento e um botão vazado "Ligar animações". A escolha é da pessoa, fica guardada no navegador e pode ser desfeita no mesmo lugar.
 
-- **Fixação**: ao entrar, a moldura se desenha e os parafusos giram até apertar. Vale para a abertura e para cada faixa colorida.
+- **Fixação**: ao entrar, os dois filetes se desenham e os parafusos são apertados em cruz (um canto, depois o oposto): cada um chega de fora e a fenda dá uma volta e meia até parar. Vale para a abertura, para cada faixa colorida e para as chapas.
 - **Plaquetas**: as letras da palavra de sinal giram no eixo horizontal, uma a uma. A mensagem sobe linha por linha de trás de uma máscara.
 - **Cada símbolo entra do seu jeito**: o disco de proibido assenta e a barra corta; o triângulo pisca como um sinalizador; o visto se desenha; a seta chega pela esquerda e continua apontando.
 - **Vida própria**: as barras da LinkWave oscilam como um sinal, o olho pisca, a engrenagem gira com a rolagem, as ondas do leitor pulsam, o crachá balança no cordão. Laços param fora da tela.
 - **Entre páginas**: o disco de proibido viaja da LinkWave para a abertura do LockMachine (View Transitions; sem suporte, a página troca normalmente).
-- **Mouse**: símbolos balançam no parafuso, placas da equipe inclinam acompanhando o cursor, setas deslizam.
+- **Mouse**: símbolos balançam no parafuso, os parafusos dão meia-volta quando o cursor passa perto, placas da equipe inclinam acompanhando o cursor, setas deslizam.
 - **Tempos**: resposta em até 150ms, mudança de estado em até 300ms, sequência de veredito em cerca de 1 segundo. Curva de saída exponencial; o único excesso permitido é o do carimbo de conferido.
 
 ## Do's and Don'ts

@@ -86,8 +86,8 @@ linkwave-tcc-reformulado/
 
 | Integrante | Papel |
 | --- | --- |
-| Leonardo | Product Owner |
-| Cauê | Scrum Master |
+| Leonardo | Product Owner e Full stack |
+| Cauê | Scrum Master e Back-end |
 | João | Banco de Dados |
 | Evelyn | Front-end |
 | Gabriel | Documentação |

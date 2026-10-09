@@ -359,6 +359,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .to(pass, { x: () => rail.offsetWidth + 70, autoAlpha: 0, duration: 0.7, ease: "power1.in" })
         .to(fill, { scaleX: 1, duration: 0.7 }, "<")
         .to(plates, { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.3, ease: "power2.out" }, "<0.2")
+        // Os parafusos das duas placas (postos pelo base.js) dão uma volta ao apertar.
+        .fromTo(checks.querySelectorAll("[data-decision] .screws b"), { rotation: -360 }, { rotation: 0, duration: 0.6, stagger: 0.04, ease: "power2.out" }, "<0.15")
         .to({}, { duration: 0.4 });
     });
 

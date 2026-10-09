@@ -37,7 +37,11 @@
   margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
 }
 
+/* A plaqueta preta estica até a base, para os cartões de uma fileira terem a
+   mesma altura mesmo quando o papel ocupa duas linhas. */
 .person {
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   border: 2px solid var(--ink);
   border-radius: var(--radius-plate);
@@ -67,6 +71,7 @@
 }
 
 .person-plate {
+  flex: 1;
   padding: 0.7rem 0.9rem 0.8rem;
   background: var(--ink);
   color: var(--white);
@@ -99,6 +104,11 @@
 
 /* Página de projetos: a placa inteira é o link -------------------------------- */
 .featured {
+  /* Chapa grande: a ferragem volta ao tamanho das placas principais */
+  --frame: 0.75rem;
+  --keyline: 3px;
+  --keyline-thin: 1.5px;
+  --screw: 1rem;
   display: grid;
   gap: clamp(1.5rem, 1rem + 3vw, 3rem);
   align-items: center;

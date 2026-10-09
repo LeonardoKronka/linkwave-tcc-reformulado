@@ -449,6 +449,9 @@
     align-items: center;
     min-height: calc(100svh - var(--topbar));
     padding-block: clamp(2rem, 6vh, 4.5rem);
+    /* No fim do trilho o crachá sai pela direita: sem isto, em notebook a
+       página ganhava alguns pixels de rolagem lateral. */
+    overflow-x: clip;
   }
 
   .band--checks > .wrap {
