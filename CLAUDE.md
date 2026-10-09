@@ -9,12 +9,14 @@ Guia do projeto para o Claude. Responda e escreva sempre em português do Brasil
 
 O repositório contém só o front-end: HTML, CSS e JavaScript, sem Node, sem build, sem banco de dados e sem back-end.
 
+Próxima etapa, decidida em 09/10/2026 para a apresentação (em 1 a 2 meses): leitor de verdade com ESP32 + RC522, servidor em PHP + MySQL no XAMPP (é o que o grupo aprendeu; sem framework), painel com login e cadastro de funcionários e máquinas pelo administrador, e app Flutter para Android (supervisor acompanha, operador consulta as capacitações). O plano, com o mínimo de cada peça, as semanas e quem faz o quê, está em [docs/plano-apresentacao.md](docs/plano-apresentacao.md).
+
 Antes de mexer em produto ou visual, leia [PRODUCT.md](PRODUCT.md) (o que é verdade sobre o produto) e [DESIGN.md](DESIGN.md) (o sistema visual). O posicionamento está em [docs/estrategia.md](docs/estrategia.md).
 
 ## Estrutura
 
 ```text
-PRODUCT.md  DESIGN.md  docs/estrategia.md
+PRODUCT.md  DESIGN.md  docs/estrategia.md  docs/plano-apresentacao.md
 .claude/launch.json  .claude/serve.ps1   servidor local para pré-visualização (porta 4173)
 .vscode/settings.json                    porta do Live Server (5502)
 linkwave-tcc-reformulado/

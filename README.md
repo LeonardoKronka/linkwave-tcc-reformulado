@@ -81,6 +81,7 @@ linkwave-tcc-reformulado/
 - [PRODUCT.md](PRODUCT.md): o que é o produto, para quem, e o que existe de verdade hoje.
 - [DESIGN.md](DESIGN.md): o sistema visual, baseado em placas de segurança industrial.
 - [docs/estrategia.md](docs/estrategia.md): posicionamento, riscos e caminhos para a próxima etapa.
+- [docs/plano-apresentacao.md](docs/plano-apresentacao.md): o que vamos mostrar à banca, as quatro peças, as semanas e quem faz o quê.
 
 ## Equipe
 
@@ -99,7 +100,10 @@ linkwave-tcc-reformulado/
 
 ## Próximos passos
 
+O caminho até a apresentação está em [docs/plano-apresentacao.md](docs/plano-apresentacao.md). Em resumo:
+
+- Leitor de verdade: ESP32 com módulo RFID, luz verde e vermelha e um relé que liga a "máquina"
+- Servidor em PHP e banco MySQL, com a regra de acesso
+- Painel com login e cadastro de funcionários e máquinas pelo administrador
+- App Flutter para Android: o supervisor acompanha as tentativas e o operador consulta as capacitações
 - Publicar o site com GitHub Pages
-- Montar um protótipo físico mínimo: um leitor RFID, uma máquina, uma decisão de verdade
-- Construir as telas de Acessos, Máquinas e Operadores
-- Criar o back-end e o banco de dados, e ligar o painel a eles

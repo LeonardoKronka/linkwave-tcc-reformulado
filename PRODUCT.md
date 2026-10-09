@@ -35,7 +35,8 @@ Chão de fábrica: prensas, tornos e fresas; o operador diante da máquina; o su
 - Hoje não existe protótipo físico, leitor RFID, banco de dados nem back-end (confirmado em 08/10/2026). Nada no site pode sugerir o contrário.
 - As telas "Acessos", "Máquinas" e "Operadores" ainda não existem.
 - Interface em português do Brasil.
-- Em aberto: como o hardware será construído, se haverá back-end, e a data e o formato da apresentação.
+- Decidido em 09/10/2026 para a apresentação (ver `docs/plano-apresentacao.md`): leitor com ESP32 e RFID, servidor em PHP + MySQL, painel com cadastro pelo administrador e app Flutter para Android. Nada disso existe ainda.
+- Em aberto: a data exata e o formato da apresentação.
 
 ## Brand Commitments
 
