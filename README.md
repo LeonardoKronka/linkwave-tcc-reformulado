@@ -30,9 +30,9 @@ O front-end do projeto, feito com HTML, CSS e JavaScript, sem etapa de build:
 
 Esta fase é uma **demonstração**:
 
-- A página do LockMachine tem um simulador do leitor: você escolhe um crachá e uma máquina fictícios e vê a decisão e o motivo. A regra de verificação é real e está em JavaScript; operadores, máquinas e datas são fictícios.
+- A página do LockMachine tem um simulador do leitor: você escolhe um crachá e uma máquina fictícios, arrasta o crachá até o leitor (ou clica nele) e vê a decisão e o motivo. A regra de verificação é real e está em JavaScript; operadores, máquinas e datas são fictícios.
 - O login aceita qualquer e-mail válido e qualquer senha. Não há autenticação.
-- Os dados do painel são ilustrativos. As tentativas que você faz no simulador aparecem nele durante a mesma sessão do navegador.
+- Os dados do painel, incluindo o gráfico de tentativas por hora, são ilustrativos. As tentativas que você faz no simulador aparecem nele durante a mesma sessão do navegador.
 - As telas "Acessos", "Máquinas" e "Operadores" ainda não foram construídas.
 - O leitor RFID físico, o banco de dados e o back-end ainda não existem.
 
@@ -54,21 +54,23 @@ Não é necessário instalar Node.js, banco de dados, PHP ou TypeScript. O site 
 linkwave-tcc-reformulado/
 ├── index.html                  entrada: redireciona para o site institucional
 ├── assets/
-│   ├── css/base.css            sistema visual: cores, tipos, placas, botões
-│   ├── js/base.js              menu e movimento de entrada das listas
+│   ├── css/base.css            sistema visual: cores, tipos, placas, material
+│   ├── js/head.js              preparo da página antes de ela aparecer
+│   ├── js/base.js              menu, moldura e parafusos, animações comuns
 │   ├── fonts/                  Archivo e Martian Mono (com as licenças)
-│   └── vendor/gsap/            GSAP e ScrollTrigger
+│   └── vendor/gsap/            GSAP, ScrollTrigger e SplitText
 ├── institucional/
 │   ├── index.html              site da LinkWave
 │   ├── projetos.html           projeto em destaque
 │   ├── style.css               o que é só da LinkWave
+│   ├── script.js               símbolos animados da LinkWave
 │   └── img/
 └── lockmachine_app/
     ├── sobre.html              apresentação e simulador do LockMachine
     ├── tela_de_login.html      login demonstrativo
     ├── dashboard.html          painel demonstrativo
     ├── style.css               o que é só do LockMachine
-    ├── script.js               simulador, registro, login e painel
+    ├── script.js               simulador, conferências, registro, login, painel e gráfico
     └── img/
 ```
 

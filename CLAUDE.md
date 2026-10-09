@@ -20,12 +20,13 @@ PRODUCT.md  DESIGN.md  docs/estrategia.md
 linkwave-tcc-reformulado/
   index.html                          só redireciona para institucional/index.html
   assets/
-    css/base.css                      sistema visual: tokens, tipos, faixas, placas, botões
-    js/base.js                        menu e entrada das listas (GSAP)
+    css/base.css                      sistema visual: tokens, tipos, faixas, placas, material, fita
+    js/head.js                        carregado no <head>: marca .js e avisa transição entre páginas
+    js/base.js                        menu, moldura e parafusos, abertura, entradas, fita, mouse (GSAP)
     fonts/                            Archivo e Martian Mono, com as licenças OFL
-    vendor/gsap/                      gsap.min.js e ScrollTrigger.min.js (3.15.0)
+    vendor/gsap/                      gsap, ScrollTrigger e SplitText (3.15.0)
   institucional/                      site da LinkWave (marca azul)
-    index.html  projetos.html  style.css  img/
+    index.html  projetos.html  style.css  script.js  img/
   lockmachine_app/                    LockMachine (marca vermelha)
     sobre.html                        apresentação e simulador do leitor
     tela_de_login.html                login demonstrativo
@@ -33,13 +34,15 @@ linkwave-tcc-reformulado/
     style.css  script.js  img/
 ```
 
-`base.css` é a fonte da verdade do visual. Cada parte tem um `style.css` só com o que é específico dela. Só o LockMachine tem `script.js` próprio.
+`base.css` é a fonte da verdade do visual. Cada parte tem um `style.css` e um `script.js` só com o que é específico dela; o que serve aos dois sites fica em `assets/`.
 
 ## Como rodar
 
 Abrir a pasta no VS Code e usar a extensão Live Server em `linkwave-tcc-reformulado/index.html`. Para o Claude pré-visualizar, `.claude/launch.json` sobe o servidor `site` na porta 4173.
 
-Não há testes automatizados nem linter. A verificação é abrir no navegador, em largura de notebook (1366×768) e de celular, e percorrer: institucional → LockMachine → aproximar crachá (liberado e bloqueado) → login → painel.
+Não há testes automatizados nem linter. A verificação é abrir no navegador, em tela de notebook (1366×625 de área útil, além de 1366×768) e de celular, e percorrer: institucional → LockMachine → levar o crachá ao leitor (liberado e bloqueado) → rolar pelas três conferências → login → painel.
+
+Com o painel do navegador do Claude oculto, as animações ficam pausadas e as capturas falham. Nesse caso, avance o relógio com `gsap.updateRoot(...)` e confira os estados pelo DOM; diga ao Leonardo que o movimento não foi visto rodando.
 
 ## Sistema visual
 
@@ -48,7 +51,7 @@ O mundo é a placa de segurança industrial. A cor nunca decora, sempre signific
 - A palavra de sinal (`.sign-word`) é o título da seção; nunca use rótulo pequeno acima de título.
 - Situação sempre traz cor, forma e palavra (`.status`).
 - Todo trecho de demonstração leva um aviso amarelo (`.notice`).
-- Sem sombras, sem degradê em texto, sem vidro fosco, sem foto escura de fábrica.
+- A placa é uma chapa esmaltada: sombra curta (`--shadow-plate`), filete em relevo, parafusos e brilho. Nada de sombra dura, degradê em texto, vidro fosco ou foto escura de fábrica.
 - Ícones são SVG desenhados (`.icon--*` em `base.css`); não use seta ou símbolo de teclado como ícone.
 - Fonte monoespaçada (`.data`) só para dado medido: RFID, horário, data, código.
 
@@ -58,8 +61,11 @@ O mundo é a placa de segurança industrial. A cor nunca decora, sempre signific
 - CSS legível: uma declaração por linha, seções com comentário, cores e medidas só por variáveis de `:root`. Cada superfície define `--bg` e `--fg`, e os componentes leem essas duas.
 - O JavaScript encontra os elementos por atributos `data-*`, nunca por classe. Um único `DOMContentLoaded` por arquivo, com `?.` para funcionar em páginas onde o elemento não existe.
 - Links entre páginas são sempre relativos.
-- GSAP é a única biblioteca, e fica em arquivo local. Não adicionar outras bibliotecas, npm ou etapa de build sem o Leonardo pedir.
-- Movimento: o conteúdo é visível por padrão; o GSAP só anima quando `prefers-reduced-motion` permite (`gsap.matchMedia`). O único momento autoral é o veredito do simulador. ScrollTrigger só em tween ou timeline de nível superior, sem `markers`.
+- GSAP é a única biblioteca (núcleo, ScrollTrigger e SplitText), e fica em arquivo local. Não adicionar outros plugins, bibliotecas, npm ou etapa de build sem o Leonardo pedir.
+- Movimento: o Leonardo pediu um site com vida (08/10/2026). Cada animação precisa vir da placa ou do produto: fixar, girar, carimbar, ler o crachá. A lista completa está na seção Motion do `DESIGN.md`.
+- O GSAP só anima quando `prefers-reduced-motion` permite (`gsap.matchMedia`). ScrollTrigger só em tween ou timeline de nível superior, sem `markers`. Depois de criar uma seção presa (`pin`), chamar `ScrollTrigger.sort()` e `ScrollTrigger.refresh()`.
+- Blocos que animam na abertura levam `data-intro`: a CSS os esconde até o script começar e os mostra sozinha depois de 3 segundos se o script falhar.
+- Animação declarada no HTML por atributos: `data-sign` (entrada da placa), `data-follow`, `data-mount`, `data-roll`, `data-wipe`, `data-tilt`, `data-tape`, `data-draw` (traço com `pathLength="1"`), `data-vt` (placa que viaja entre páginas).
 - A página precisa funcionar sem JavaScript: o menu fica aberto e o conteúdo aparece.
 
 ## O que é demonstração
@@ -67,7 +73,7 @@ O mundo é a placa de segurança industrial. A cor nunca decora, sempre signific
 - Hoje não existe protótipo físico, leitor RFID, banco de dados nem back-end. Nada no site ou na documentação pode sugerir o contrário.
 - O simulador roda no navegador. A regra (`checkAccess` em `lockmachine_app/script.js`) é real; operadores, máquinas e datas são fictícios, e as validades são calculadas a partir de hoje.
 - O login não autentica: com e-mail e senha preenchidos, só redireciona para `dashboard.html`.
-- Os números e as linhas do painel são ilustrativos e fixos no HTML. O JavaScript acrescenta a data e as tentativas feitas no simulador (guardadas em `sessionStorage`).
+- Os números, as linhas e o gráfico do painel são ilustrativos e fixos no HTML (o gráfico é desenhado a partir da tabela "Tentativas por hora"). O JavaScript acrescenta a data e as tentativas feitas no simulador (guardadas em `sessionStorage`).
 - "Acessos", "Máquinas" e "Operadores" estão marcados "Em breve" e não têm tela.
 - A citação da NR-12 (item 12.16.1) foi conferida em fontes jurídicas, não no texto oficial. A equipe ainda vai validar com o orientador.
 

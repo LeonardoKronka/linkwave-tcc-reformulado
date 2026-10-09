@@ -10,7 +10,10 @@ colors:
   ink-soft: "#4d544f"
   wall: "#e3e6e2"
   white: "#fcfdfb"
+  white-soft: "#c9cfca"
   line: "#bfc5bf"
+  yellow-wash: "#fff8e0"
+  steel: "#b4bab4"
 typography:
   signal-word:
     fontFamily: "Archivo, Arial Narrow, Arial, sans-serif"
@@ -137,12 +140,20 @@ O painel do supervisor segue a estrutura padrão da categoria: trilho lateral pr
 
 ## Elevation & Depth
 
-Não há sombras. Placas são planas, e a separação vem de cor, filete e borda de 2px.
+A placa é uma chapa esmaltada presa à parede, não uma cor de tela. A profundidade vem de quatro coisas, todas discretas:
+
+- **Esmalte**: toda superfície colorida leva uma luz vertical muito leve (mais clara em cima, mais escura embaixo) e um grão fino. As variáveis são `--enamel` e `--grain`.
+- **Sombra de chapa** (`--shadow-plate`): curta, deslocada para baixo e suave, em painéis, chapas, crachá e placas da equipe.
+- **Filete em relevo** (`--relief`): a linha da moldura projeta uma sombra de 1px.
+- **Brilho**: uma faixa de luz atravessa a placa na abertura e a cada veredito, e um reflexo acompanha o cursor.
+
+O painel do supervisor fica mais plano: só as placas de máquina têm sombra.
 
 ## Shapes
 
 - Cantos de 0,625rem em controles e de 0,75 a 1,25rem em placas.
 - **Filete interno**: toda faixa colorida e toda chapa têm uma linha na cor do texto, recuada da borda, como na moldura de uma placa real.
+- **Parafusos**: quatro, um em cada canto das faixas coloridas e das chapas, em aço. São postos pelo `base.js`.
 - Símbolos são geométricos e chapados, em SVG no próprio HTML: disco com barra, triângulo, disco azul com pictograma branco, quadrado verde.
 - Ícones de interface são SVG de traço único de 2,6, aplicados como máscara em `.icon`.
 
@@ -173,9 +184,27 @@ Barra preta fixa no topo, links em caixa alta, ação principal como chapa branc
 
 ### Signature Component
 
-**A placa que confere o crachá** (`.signal`, na abertura do LockMachine). Estado inicial: regra, em vermelho, "Proibido operar sem capacitação válida". Ao aproximar um crachá, a cor do veredito se espalha a partir do botão do leitor como um disco, as letras da palavra de sinal giram como plaquetas, e a placa passa a "Liberado" (verde, símbolo assenta) ou "Bloqueado" (vermelho, a placa balança de um lado para o outro). O motivo aparece logo abaixo e a tentativa entra no registro.
+**A placa que confere o crachá** (`.signal`, na abertura do LockMachine). Estado inicial: regra, em vermelho, "Proibido operar sem capacitação válida". O visitante arrasta o crachá até o leitor, ou clica no leitor. O crachá encosta, o leitor dispara um pulso e o número do RFID embaralha por um instante. A cor do veredito se espalha a partir do leitor como um disco, a chapa branca muda de forma (disco para proibido, quadrado para liberado), as letras da palavra de sinal giram como plaquetas e o brilho atravessa a placa. Bloqueado: a placa balança de um lado para o outro. O motivo aparece logo abaixo e a tentativa cai no registro.
+
+**As três conferências** (`.checks`): em tela larga a seção fica presa enquanto um crachá percorre um trilho; cada disco acende e recebe o selo de conferido, e as placas de decisão sobem no fim.
+
+**Fita de isolamento** (`.tape`): tira listrada e levemente inclinada entre a abertura e a seção seguinte, com texto que corre e acelera com a rolagem. Amarela no LockMachine, azul na LinkWave.
+
+**Gráfico de tentativas por hora** (painel): colunas finas empilhadas, verde para liberado e vermelho para bloqueado, com 2px de respiro, legenda com forma e palavra, rótulo só nos bloqueios, dica ao passar o mouse ou focar, e a mesma informação em tabela.
 
 No painel do supervisor, a assinatura é a **situação das máquinas como um mural de placas**.
+
+## Motion
+
+O movimento conta que a placa é um objeto de verdade. Tudo é feito com GSAP e some com `prefers-reduced-motion`.
+
+- **Fixação**: ao entrar, a moldura se desenha e os parafusos giram até apertar. Vale para a abertura e para cada faixa colorida.
+- **Plaquetas**: as letras da palavra de sinal giram no eixo horizontal, uma a uma. A mensagem sobe linha por linha de trás de uma máscara.
+- **Cada símbolo entra do seu jeito**: o disco de proibido assenta e a barra corta; o triângulo pisca como um sinalizador; o visto se desenha; a seta chega pela esquerda e continua apontando.
+- **Vida própria**: as barras da LinkWave oscilam como um sinal, o olho pisca, a engrenagem gira com a rolagem, as ondas do leitor pulsam, o crachá balança no cordão. Laços param fora da tela.
+- **Entre páginas**: o disco de proibido viaja da LinkWave para a abertura do LockMachine (View Transitions; sem suporte, a página troca normalmente).
+- **Mouse**: símbolos balançam no parafuso, placas da equipe inclinam acompanhando o cursor, setas deslizam.
+- **Tempos**: resposta em até 150ms, mudança de estado em até 300ms, sequência de veredito em cerca de 1 segundo. Curva de saída exponencial; o único excesso permitido é o do carimbo de conferido.
 
 ## Do's and Don'ts
 
@@ -184,13 +213,16 @@ No painel do supervisor, a assinatura é a **situação das máquinas como um mu
 - Escolher a cor pelo que a seção significa, e só depois desenhar.
 - Usar a palavra de sinal como título da seção.
 - Chamar demonstração de demonstração, em plaquinha amarela.
-- Manter um único momento de movimento autoral: o veredito. Listas entram como listas, uma vez.
+- Dar a cada movimento um motivo vindo da placa ou do produto: fixar, girar, carimbar, ler o crachá.
+- Deixar o conteúdo visível sem JavaScript e sem movimento: a animação parte do estado pronto, nunca o substitui.
 - Respeitar `prefers-reduced-motion`: sem deslocamento, o estado muda na hora.
 
 ### Don't:
 
 - Usar vermelho, amarelo, azul ou verde como enfeite.
 - Trazer de volta foto escura de fábrica, brilho neon, vidro fosco ou texto em degradê.
+- Animar por animar: surgir e subir igual em toda seção, paralaxe genérica, efeito que não saiu da placa.
+- Fazer alguém esperar uma animação para usar o painel: lá a entrada dura menos de um segundo.
 - Pôr rótulo pequeno acima de título, ou numerar seções sem que a ordem importe.
 - Usar fonte monoespaçada para "parecer técnico".
 - Usar seta ou símbolo de teclado como ícone; ícones são desenhados.

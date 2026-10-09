@@ -42,6 +42,21 @@
   border: 2px solid var(--ink);
   border-radius: var(--radius-plate);
   background: var(--white);
+  box-shadow: var(--shadow-plate);
+  transition: box-shadow 250ms;
+}
+
+/* A placa sai da parede quando o cursor chega (a inclinação vem do base.js) */
+.person:hover {
+  box-shadow: 0 2px 2px rgb(19 22 20 / 0.2), 0 26px 36px -18px rgb(19 22 20 / 0.6);
+}
+
+.person img {
+  transition: scale 500ms var(--ease-out);
+}
+
+.person:hover img {
+  scale: 1.04;
 }
 
 .person img {
@@ -66,7 +81,7 @@
 }
 
 .person-plate p {
-  color: #c9cfca;
+  color: var(--white-soft);
   font-size: var(--text-small);
 }
 

@@ -68,7 +68,66 @@
         </dl>
 
         <div class="board">
+          <!-- Sem JavaScript a tabela abaixo aparece aberta; com ele, vira o gráfico. -->
+          <section class="sheet" data-chart>
+            <div class="sheet-head">
+              <h2>Tentativas por hora</h2>
+              <p data-chart-note>Hoje, das 7h às 14h.</p>
+            </div>
+            <div class="chart-body">
+              <p class="chart-legend">
+                <span class="status status--ok">Liberado</span>
+                <span class="status status--blocked">Bloqueado</span>
+              </p>
+              <div class="chart-plot" data-chart-plot></div>
+              <details class="chart-table" open data-chart-table>
+                <summary>Ver os números em tabela</summary>
+                <table>
+                  <thead>
+                    <tr><th scope="col">Hora</th><th scope="col">Liberados</th><th scope="col">Bloqueados</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>7h</td><td>2</td><td>0</td></tr>
+                    <tr><td>8h</td><td>4</td><td>1</td></tr>
+                    <tr><td>9h</td><td>5</td><td>0</td></tr>
+                    <tr><td>10h</td><td>3</td><td>0</td></tr>
+                    <tr><td>11h</td><td>2</td><td>1</td></tr>
+                    <tr><td>12h</td><td>4</td><td>0</td></tr>
+                    <tr><td>13h</td><td>3</td><td>0</td></tr>
+                    <tr><td>14h</td><td>3</td><td>1</td></tr>
+                  </tbody>
+                </table>
+              </details>
+            </div>
+          </section>
+
           <section class="sheet">
+            <div class="sheet-head">
+              <h2>Situação das máquinas</h2>
+              <p>Neste momento.</p>
+            </div>
+            <div class="machine-wall">
+              <article class="machine-plate">
+                <div><span class="data">P-01</span><strong>Prensa 01</strong><small>Galpão A</small></div>
+                <span class="machine-state label">Operacional</span>
+              </article>
+              <article class="machine-plate machine-plate--blocked">
+                <div><span class="data">T-03</span><strong>Torno 03</strong><small>Usinagem</small></div>
+                <span class="machine-state label">Bloqueada</span>
+              </article>
+              <article class="machine-plate">
+                <div><span class="data">F-02</span><strong>Fresa 02</strong><small>Usinagem</small></div>
+                <span class="machine-state label">Operacional</span>
+              </article>
+              <article class="machine-plate machine-plate--warn">
+                <div><span class="data">P-02</span><strong>Prensa 02</strong><small>Galpão B</small></div>
+                <span class="machine-state label">Manutenção</span>
+              </article>
+            </div>
+          </section>
+        </div>
+
+        <section class="sheet">
             <div class="sheet-head">
               <h2>Últimas tentativas de acesso</h2>
               <p data-session-note>Registros recentes do sistema.</p>
@@ -111,37 +170,12 @@
                 </tbody>
               </table>
             </div>
-          </section>
-
-          <section class="sheet">
-            <div class="sheet-head">
-              <h2>Situação das máquinas</h2>
-              <p>Neste momento.</p>
-            </div>
-            <div class="machine-wall">
-              <article class="machine-plate">
-                <div><span class="data">P-01</span><strong>Prensa 01</strong><small>Galpão A</small></div>
-                <span class="machine-state label">Operacional</span>
-              </article>
-              <article class="machine-plate machine-plate--blocked">
-                <div><span class="data">T-03</span><strong>Torno 03</strong><small>Usinagem</small></div>
-                <span class="machine-state label">Bloqueada</span>
-              </article>
-              <article class="machine-plate">
-                <div><span class="data">F-02</span><strong>Fresa 02</strong><small>Usinagem</small></div>
-                <span class="machine-state label">Operacional</span>
-              </article>
-              <article class="machine-plate machine-plate--warn">
-                <div><span class="data">P-02</span><strong>Prensa 02</strong><small>Galpão B</small></div>
-                <span class="machine-state label">Manutenção</span>
-              </article>
-            </div>
-          </section>
-        </div>
+        </section>
       </main>
     </div>
   </div>
 
+  <script src="../assets/vendor/gsap/gsap.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

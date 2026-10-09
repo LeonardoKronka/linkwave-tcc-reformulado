@@ -1,6 +1,6 @@
 /* ==========================================================================
    LockMachine — páginas do produto
-   A base (cores, tipos, placas, botões) está em ../assets/css/base.css
+   A base (cores, tipos, placas, botões, material) está em ../assets/css/base.css
    ========================================================================== */
 
 .lockmachine {
@@ -20,12 +20,13 @@
   visibility: hidden;
 }
 
-.signal [data-symbol="go"],
-.signal[data-state="granted"] [data-symbol="stop"] {
+/* A mesma chapa branca mostra o proibido ou o liberado */
+.signal [data-glyph="go"],
+.signal[data-state="granted"] [data-glyph="stop"] {
   visibility: hidden;
 }
 
-.signal[data-state="granted"] [data-symbol="go"] {
+.signal[data-state="granted"] [data-glyph="go"] {
   visibility: visible;
 }
 
@@ -35,7 +36,7 @@
   backface-visibility: hidden;
 }
 
-/* Simulador: crachá, máquina e o botão do leitor */
+/* Simulador: crachá, máquina e o leitor */
 .reader {
   display: grid;
   gap: 1rem;
@@ -85,7 +86,7 @@
   background: var(--white);
   font-size: var(--text-small);
   line-height: 1.2;
-  transition: background-color 120ms, color 120ms;
+  transition: background-color 120ms, color 120ms, scale 120ms;
 }
 
 .chip-face b {
@@ -95,6 +96,10 @@
 
 .chip:hover .chip-face {
   background: var(--wall);
+}
+
+.chip:active .chip-face {
+  scale: 0.97;
 }
 
 .chip input:checked + .chip-face {
@@ -107,15 +112,183 @@
   outline-offset: 2px;
 }
 
-.reader-submit {
-  width: 100%;
-  min-height: 3.5rem;
-  font-size: 1.0625rem;
+/* Palco do leitor: o crachá à esquerda, o leitor à direita */
+.reader-stage {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto minmax(1.25rem, 0.35fr) minmax(0, 1.65fr);
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.reader-submit .icon {
-  width: 1.4em;
-  height: 1.4em;
+.badge-hang {
+  position: relative;
+  z-index: 2;
+  transform-origin: 50% -40%;
+}
+
+.badge {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.6rem;
+  width: 10.5rem;
+  padding: 1.1rem 0.7rem 0.6rem;
+  border: 2px solid var(--ink);
+  border-radius: 0.6rem;
+  background: var(--white);
+  box-shadow: var(--shadow-plate);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.badge.is-dragging {
+  cursor: grabbing;
+}
+
+/* O furo do cordão */
+.badge-slot {
+  position: absolute;
+  top: 0.35rem;
+  left: 50%;
+  width: 1.9rem;
+  height: 0.4rem;
+  border-radius: 1rem;
+  background: var(--ink);
+  translate: -50% 0;
+}
+
+.badge-photo {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.3rem;
+  background: var(--wall);
+}
+
+.badge-text {
+  display: grid;
+  gap: 0.1rem;
+  font-size: var(--text-small);
+  line-height: 1.2;
+}
+
+.badge-text b {
+  font-weight: 700;
+  font-stretch: 88%;
+}
+
+/* Linha tracejada: o caminho do crachá até o leitor */
+.reader-hint {
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 0.4rem, transparent 0.4rem 0.8rem);
+}
+
+.reader-pad {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 5.25rem;
+  padding: 0.75rem 1.1rem;
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--white);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 200ms, border-color 200ms, box-shadow 150ms;
+}
+
+/* O leitor acende com a cor do veredito */
+.reader-pad[data-led="granted"] {
+  border-color: var(--green);
+  background: var(--green);
+}
+
+.reader-pad[data-led="denied"] {
+  border-color: var(--red);
+  background: var(--red);
+}
+
+.reader-pad.is-target {
+  box-shadow: 0 0 0 3px var(--white), 0 0 0 6px var(--ink);
+}
+
+.reader-pad:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.reader-pad b {
+  display: block;
+  font-size: 1.0625rem;
+  font-weight: 800;
+  font-stretch: 84%;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.reader-pad small {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--white-soft);
+  font-size: var(--text-small);
+}
+
+.reader-pad[data-led="granted"] small,
+.reader-pad[data-led="denied"] small {
+  color: var(--white);
+}
+
+/* Ondas de RFID: um ponto e três arcos */
+.reader-waves {
+  position: relative;
+  width: 2.6rem;
+  height: 2.6rem;
+}
+
+.reader-waves::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0.1rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+  translate: 0 -50%;
+}
+
+.reader-waves i {
+  position: absolute;
+  top: 50%;
+  left: 0.35rem;
+  border: 0.2rem solid transparent;
+  border-right-color: currentColor;
+  border-radius: 50%;
+  translate: -50% -50%;
+}
+
+.reader-waves i:nth-child(1) { width: 1.3rem; height: 1.3rem; }
+.reader-waves i:nth-child(2) { width: 2.5rem; height: 2.5rem; }
+.reader-waves i:nth-child(3) { width: 3.7rem; height: 3.7rem; }
+
+/* O pulso que dispara na leitura */
+.reader-ping {
+  position: absolute;
+  top: 50%;
+  left: 1.45rem;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  opacity: 0;
+  translate: -50% -50%;
 }
 
 /* O motivo do veredito fica logo abaixo da placa, antes dos controles */
@@ -131,6 +304,55 @@
   font-weight: 600;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  /* O leitor chama: as ondas se propagam, o crachá balança no cordão */
+  .reader-waves i {
+    animation: wave 1.8s ease-out infinite;
+  }
+
+  .reader-waves i:nth-child(2) { animation-delay: 0.18s; }
+  .reader-waves i:nth-child(3) { animation-delay: 0.36s; }
+
+  .reader-pad:hover .reader-waves i {
+    animation-duration: 0.9s;
+  }
+
+  .badge-hang {
+    animation: sway 3.6s ease-in-out infinite alternate;
+  }
+
+  .reader-hint {
+    animation: march 0.9s linear infinite;
+  }
+
+  /* Fora da tela, tudo isso para */
+  .is-away .reader-waves i,
+  .is-away .badge-hang,
+  .is-away .reader-hint {
+    animation-play-state: paused;
+  }
+
+  @keyframes wave {
+    0%, 100% { opacity: 0.25; }
+    30% { opacity: 1; }
+  }
+
+  @keyframes sway {
+    from { rotate: -1.6deg; }
+    to { rotate: 1.6deg; }
+  }
+
+  @keyframes march {
+    to { background-position-x: 0.8rem; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signal {
+    transition: background-color 250ms;
+  }
+}
+
 /* No celular os controles vêm antes do texto, para a placa e o leitor
    caberem na mesma tela */
 @media (max-width: 59.99rem) {
@@ -143,26 +365,45 @@
   }
 }
 
-/* Em telas largas, crachá e máquina ficam lado a lado */
-@media (min-width: 75rem) {
-  .reader {
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+@media (max-width: 35.99rem) {
+  .reader-stage {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 0.5rem;
   }
 
-  .reader-submit {
-    grid-column: 1 / -1;
+  .reader-hint {
+    width: 2px;
+    height: 1rem;
+    background: repeating-linear-gradient(180deg, var(--ink) 0 0.3rem, transparent 0.3rem 0.6rem);
+    animation: none;
+  }
+
+  .reader-pad {
+    width: 100%;
+    min-height: 4.25rem;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .signal {
-    transition: background-color 250ms;
+/* Em telas largas, e no notebook, crachá e máquina ficam lado a lado */
+@media (min-width: 75rem), (min-width: 60rem) and (max-height: 46rem) {
+  .reader {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   }
 }
 
 /* Obrigatório: as três conferências ----------------------------------------- */
 .steps {
   counter-reset: step;
+}
+
+.checks {
+  position: relative;
+}
+
+/* O trilho e o crachá que percorre as conferências só existem em tela larga */
+.check-rail {
+  display: none;
 }
 
 /* O selo de "conferido" no canto de cada placa */
@@ -194,6 +435,97 @@
 @media (min-width: 44rem) {
   .decision {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Tela larga: título à esquerda, conferências à direita, tudo numa tela só,
+   porque a seção fica presa enquanto o crachá percorre o trilho */
+@media (min-width: 60rem) {
+  .band--checks {
+    display: grid;
+    align-items: center;
+    min-height: calc(100svh - var(--topbar));
+    padding-block: clamp(2rem, 6vh, 4.5rem);
+  }
+
+  .band--checks > .wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 0.46fr) minmax(0, 1fr);
+    gap: clamp(2rem, 1rem + 3vw, 4rem);
+    align-items: center;
+  }
+
+  .band--checks .sign-word {
+    font-size: clamp(2.5rem, 1rem + 3vw, 3.5rem);
+  }
+
+  .band--checks .sign-message {
+    font-size: clamp(1.25rem, 0.9rem + 1vw, 1.75rem);
+  }
+
+  .checks {
+    --disc: clamp(4.5rem, 14vh, 7.5rem);
+  }
+
+  .checks .sign-list {
+    gap: 1.5rem;
+    margin-top: 0;
+  }
+
+  .checks .sign-item-symbol {
+    z-index: 1;
+    width: var(--disc);
+  }
+
+  .check-rail {
+    position: absolute;
+    top: calc(var(--disc) / 2 - 2px);
+    right: 0;
+    left: calc(var(--disc) / 2);
+    display: block;
+    height: 4px;
+    background: var(--line);
+  }
+
+  .check-rail-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--blue);
+    transform-origin: 0 50%;
+  }
+
+  .check-pass {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    z-index: 2;
+    width: 2.25rem;
+    height: 2.7rem;
+    margin-top: -1.35rem;
+    visibility: hidden;
+    filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.35));
+  }
+
+  .check-pass rect:first-child {
+    stroke: var(--ink);
+    stroke-width: 2.5;
+  }
+
+  .checks .decision {
+    margin-top: clamp(1.25rem, 4vh, 2.5rem);
+  }
+
+  .checks .plate {
+    padding: 1.1rem 1.5rem 1.2rem;
+  }
+
+  .checks .plate-word {
+    font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem);
+  }
+
+  .checks .plate p {
+    margin-top: 0.4rem;
+    font-size: var(--text-small);
   }
 }
 
@@ -256,6 +588,7 @@
   border: 2px solid var(--ink);
   border-radius: var(--radius-plate);
   background: var(--white);
+  box-shadow: var(--shadow-plate);
 }
 
 .log-head {
@@ -270,7 +603,7 @@
 }
 
 .log-head span {
-  color: #c9cfca;
+  color: var(--white-soft);
   font-size: var(--text-small);
 }
 
@@ -326,17 +659,25 @@
 }
 
 .login-sign {
+  position: relative;
   width: min(100%, 30rem);
   overflow: hidden;
   border: var(--keyline) solid var(--ink);
   border-radius: var(--radius-plate);
   background: var(--white);
+  box-shadow: var(--shadow-plate);
 }
 
 .login-head {
   padding: 1.25rem 1.5rem 1.35rem;
   background: var(--ink);
   color: var(--white);
+  transition: background-color 200ms;
+}
+
+/* Acesso aceito: a placa fica verde antes de abrir o painel */
+.login-sign[data-state="granted"] .login-head {
+  background: var(--green);
 }
 
 .login-head .sign-word {
@@ -345,7 +686,11 @@
 
 .login-head p {
   margin-top: 0.6rem;
-  color: #c9cfca;
+  color: var(--white-soft);
+}
+
+.login-sign[data-state="granted"] .login-head p {
+  color: var(--white);
 }
 
 .login-body {
@@ -375,6 +720,10 @@
 .field input:focus-visible {
   outline: 3px solid var(--blue);
   outline-offset: 2px;
+}
+
+.field input[aria-invalid="true"] {
+  border-color: var(--red);
 }
 
 .form-error {
@@ -480,7 +829,7 @@
 }
 
 .rail-soon {
-  color: #c9cfca;
+  color: var(--white-soft);
 }
 
 .rail-soon small {
@@ -652,6 +1001,116 @@
   font-size: var(--text-small);
 }
 
+/* Gráfico: tentativas por hora ------------------------------------------------ */
+.chart-body {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chart-plot {
+  position: relative;
+}
+
+.chart-plot svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Grade e eixos discretos: quem fala alto é o dado */
+.chart-grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.chart-tick,
+.chart-hour {
+  fill: var(--ink-soft);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-value {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.chart-ok {
+  fill: var(--green);
+}
+
+.chart-blocked {
+  fill: var(--red);
+}
+
+.chart-hit {
+  fill: transparent;
+}
+
+.chart-band {
+  outline: none;
+}
+
+.chart-band:hover .chart-hit,
+.chart-band:focus-visible .chart-hit {
+  fill: var(--wall);
+}
+
+.chart-band:focus-visible .chart-hit {
+  stroke: var(--blue);
+  stroke-width: 2;
+}
+
+.chart-tip {
+  position: absolute;
+  z-index: 2;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.4rem;
+  background: var(--ink);
+  color: var(--white);
+  font-size: var(--text-small);
+  line-height: 1.4;
+  white-space: nowrap;
+  box-shadow: var(--shadow-plate);
+  pointer-events: none;
+  translate: -50% calc(-100% - 0.5rem);
+}
+
+.chart-tip span {
+  display: block;
+  color: var(--white-soft);
+}
+
+.chart-table summary {
+  width: fit-content;
+  font-size: var(--text-small);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chart-table table {
+  width: 100%;
+  margin-top: 0.75rem;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+}
+
+.chart-table th,
+.chart-table td {
+  padding: 0.4rem 0.5rem;
+  border-top: 1px solid var(--line);
+  text-align: left;
+}
+
+/* Tabela de tentativas -------------------------------------------------------- */
 .table-wrap {
   overflow-x: auto;
 }
@@ -686,7 +1145,7 @@
 
 /* Tentativas feitas nesta sessão, no simulador da página do projeto */
 .table-wrap tr.is-session td {
-  background: #fff8e0;
+  background: var(--yellow-wash);
 }
 
 /* Assinatura do painel: a situação das máquinas como um mural de placas */
@@ -704,16 +1163,22 @@
   min-height: 8.5rem;
   padding: 1rem;
   border-radius: var(--radius);
-  background: var(--green);
+  background: var(--green) var(--enamel);
   color: var(--white);
+  box-shadow: var(--shadow-plate);
+  transition: translate 200ms var(--ease-out);
+}
+
+.machine-plate:hover {
+  translate: 0 -3px;
 }
 
 .machine-plate--blocked {
-  background: var(--red);
+  background-color: var(--red);
 }
 
 .machine-plate--warn {
-  background: var(--yellow);
+  background-color: var(--yellow);
   color: var(--ink);
 }
 
@@ -756,6 +1221,17 @@
   width: 0.95em;
   border-radius: 0;
   clip-path: polygon(50% 6%, 100% 94%, 0 94%);
+}
+
+/* A máquina bloqueada pede atenção: o sinal pulsa devagar */
+@media (prefers-reduced-motion: no-preference) {
+  .machine-plate--blocked .machine-state::before {
+    animation: alert 2s ease-in-out infinite;
+  }
+
+  @keyframes alert {
+    50% { scale: 1.35; }
+  }
 }
 
 @media (min-width: 56rem) {

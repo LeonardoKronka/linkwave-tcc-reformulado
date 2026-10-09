@@ -18,12 +18,14 @@ Não é necessário instalar Node.js, banco de dados, PHP ou TypeScript. Fontes 
 ```text
 index.html                          entrada do projeto
 assets/css/base.css                 sistema visual compartilhado
-assets/js/base.js                   menu e movimento de entrada
+assets/js/head.js                   preparo da página antes de ela aparecer
+assets/js/base.js                   menu, moldura e parafusos, animações comuns
 assets/fonts/                       fontes Archivo e Martian Mono
-assets/vendor/gsap/                 biblioteca de animação GSAP
+assets/vendor/gsap/                 biblioteca de animação GSAP e dois plugins
 institucional/index.html            site da LinkWave
 institucional/projetos.html         apresentação do projeto em destaque
 institucional/style.css             o que é só da LinkWave
+institucional/script.js             símbolos animados da LinkWave
 lockmachine_app/sobre.html          apresentação e simulador do LockMachine
 lockmachine_app/tela_de_login.html  login demonstrativo
 lockmachine_app/dashboard.html      painel demonstrativo
@@ -33,7 +35,7 @@ lockmachine_app/script.js           simulador, registro, login e painel
 
 ## Simulador do leitor
 
-Na página do LockMachine, escolha um crachá e uma máquina e clique em **Aproximar crachá**. A placa responde "Liberado" ou "Bloqueado" e mostra o motivo. Operadores, máquinas e datas são fictícios; as validades são calculadas a partir da data de hoje.
+Na página do LockMachine, escolha um crachá e uma máquina e arraste o crachá até o leitor, ou clique em **Aproximar crachá**. A placa responde "Liberado" ou "Bloqueado" e mostra o motivo. Operadores, máquinas e datas são fictícios; as validades são calculadas a partir da data de hoje.
 
 ## Login de demonstração
 

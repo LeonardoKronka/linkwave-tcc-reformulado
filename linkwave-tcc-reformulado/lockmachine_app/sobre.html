@@ -10,7 +10,7 @@
   <link rel="preload" href="../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="style.css">
-  <script>document.documentElement.className = "js";</script>
+  <script src="../assets/js/head.js"></script>
 </head>
 <body class="lockmachine">
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -33,67 +33,95 @@
     <!-- A abertura é uma placa do tamanho da tela. Ela muda conforme o crachá. -->
     <section class="signal" id="inicio" data-signal data-state="rule">
       <span class="signal-flood" aria-hidden="true" data-flood></span>
-      <div class="wrap signal-grid">
-        <div class="signal-symbol" aria-hidden="true">
-          <svg viewBox="0 0 120 120" data-symbol="stop">
-            <circle class="s-white" cx="60" cy="60" r="58"/>
-            <path class="l-ink" stroke-width="9" stroke-linecap="round" d="M60 31v27M43 42a25 25 0 1 0 34 0"/>
-            <circle class="l-red" cx="60" cy="60" r="48.5" stroke-width="11"/>
-            <path class="l-red bar" stroke-width="11" pathLength="100" d="M26 26l68 68"/>
-          </svg>
-          <svg viewBox="0 0 120 120" data-symbol="go">
-            <rect class="s-white" x="2" y="2" width="116" height="116" rx="13"/>
-            <path class="l-green" stroke-width="15" d="M28 62l22 22 42-46"/>
+      <div class="wrap signal-grid" data-intro>
+        <!-- O disco de proibido vira o quadrado de liberado: a chapa branca muda de forma. -->
+        <div class="signal-symbol" aria-hidden="true" data-vt>
+          <svg viewBox="0 0 120 120">
+            <rect class="s-white" x="2" y="2" width="116" height="116" rx="58" data-shape/>
+            <g data-glyph="stop">
+              <path class="l-ink" stroke-width="9" stroke-linecap="round" d="M60 31v27M43 42a25 25 0 1 0 34 0"/>
+              <circle class="l-red" cx="60" cy="60" r="48.5" stroke-width="11" pathLength="1" data-draw/>
+              <path class="l-red" stroke-width="11" pathLength="1" d="M26 26l68 68" data-draw/>
+            </g>
+            <g data-glyph="go">
+              <path class="l-green" stroke-width="15" pathLength="1" d="M28 62l22 22 42-46" data-draw/>
+            </g>
           </svg>
         </div>
 
-        <div>
-          <h1 class="sign-title signal-title">
-            <span class="sign-word" aria-hidden="true" data-word>Proibido</span>
-            <span class="sign-message" aria-hidden="true" data-message>operar sem capacitação válida</span>
-            <span class="sr-only">LockMachine: proibido operar sem capacitação válida</span>
-          </h1>
+        <h1 class="sign-title signal-title">
+          <span class="sign-word" aria-hidden="true" data-word>Proibido</span>
+          <span class="sign-message" aria-hidden="true" data-message>operar sem capacitação válida</span>
+          <span class="sr-only">LockMachine: proibido operar sem capacitação válida</span>
+        </h1>
 
-          <div class="panel signal-panel">
-            <p class="signal-lead">O LockMachine é um controle de acesso para máquinas industriais. O operador aproxima o crachá, o sistema confere a capacitação exigida por aquela máquina e só então libera.</p>
+        <div class="panel signal-panel">
+          <p class="signal-lead">O LockMachine é um controle de acesso para máquinas industriais. O operador aproxima o crachá, o sistema confere a capacitação exigida por aquela máquina e só então libera.</p>
 
-            <div class="verdict">
-              <p class="verdict-text" role="status" data-verdict>Faça o teste: escolha um crachá e uma máquina, e aproxime.</p>
-              <p class="notice" hidden data-verdict-warn><span class="icon icon--warn" aria-hidden="true"></span><span></span></p>
-            </div>
-
-            <form class="reader" data-reader>
-              <fieldset class="reader-group">
-                <legend class="label">Crachá</legend>
-                <div class="reader-options">
-                  <label class="chip"><input type="radio" name="operator" value="marina" checked><span class="chip-face"><b>Marina Costa</b><span class="data">RFID 0182</span></span></label>
-                  <label class="chip"><input type="radio" name="operator" value="carlos"><span class="chip-face"><b>Carlos Souza</b><span class="data">RFID 0247</span></span></label>
-                  <label class="chip"><input type="radio" name="operator" value="pedro"><span class="chip-face"><b>Pedro Alves</b><span class="data">RFID 0115</span></span></label>
-                </div>
-              </fieldset>
-              <fieldset class="reader-group">
-                <legend class="label">Máquina</legend>
-                <div class="reader-options">
-                  <label class="chip"><input type="radio" name="machine" value="prensa-01" checked><span class="chip-face"><b>Prensa 01</b></span></label>
-                  <label class="chip"><input type="radio" name="machine" value="torno-03"><span class="chip-face"><b>Torno 03</b></span></label>
-                  <label class="chip"><input type="radio" name="machine" value="fresa-02"><span class="chip-face"><b>Fresa 02</b></span></label>
-                </div>
-              </fieldset>
-              <button class="button reader-submit" type="submit"><span class="icon icon--rfid" aria-hidden="true"></span>Aproximar crachá</button>
-            </form>
-
-            <p class="fineprint">Simulação no navegador. Operadores, máquinas e datas são fictícios.</p>
+          <div class="verdict">
+            <p class="verdict-text" role="status" data-verdict>Escolha um crachá e uma máquina e leve o crachá ao leitor.</p>
+            <p class="notice" hidden data-verdict-warn><span class="icon icon--warn" aria-hidden="true"></span><span></span></p>
           </div>
+
+          <form class="reader" data-reader>
+            <fieldset class="reader-group">
+              <legend class="label">Crachá</legend>
+              <div class="reader-options">
+                <label class="chip"><input type="radio" name="operator" value="marina" checked><span class="chip-face"><b>Marina Costa</b><span class="data">RFID 0182</span></span></label>
+                <label class="chip"><input type="radio" name="operator" value="carlos"><span class="chip-face"><b>Carlos Souza</b><span class="data">RFID 0247</span></span></label>
+                <label class="chip"><input type="radio" name="operator" value="pedro"><span class="chip-face"><b>Pedro Alves</b><span class="data">RFID 0115</span></span></label>
+              </div>
+            </fieldset>
+            <fieldset class="reader-group">
+              <legend class="label">Máquina</legend>
+              <div class="reader-options">
+                <label class="chip"><input type="radio" name="machine" value="prensa-01" checked><span class="chip-face"><b>Prensa 01</b></span></label>
+                <label class="chip"><input type="radio" name="machine" value="torno-03"><span class="chip-face"><b>Torno 03</b></span></label>
+                <label class="chip"><input type="radio" name="machine" value="fresa-02"><span class="chip-face"><b>Fresa 02</b></span></label>
+              </div>
+            </fieldset>
+
+            <!-- O crachá pode ser arrastado até o leitor; clicar no leitor faz o mesmo. -->
+            <div class="reader-stage">
+              <div class="badge-hang">
+                <div class="badge" aria-hidden="true" data-badge>
+                  <span class="badge-slot"></span>
+                  <svg class="badge-photo" viewBox="0 0 40 40">
+                    <circle class="s-ink" cx="20" cy="15" r="7"/>
+                    <path class="s-ink" d="M7 38c0-9 5.5-14 13-14s13 5 13 14z"/>
+                  </svg>
+                  <span class="badge-text"><b data-badge-name>Marina Costa</b><span class="data" data-badge-rfid>RFID 0182</span></span>
+                </div>
+              </div>
+              <span class="reader-hint" aria-hidden="true"></span>
+              <button class="reader-pad" type="submit" data-pad data-led="idle">
+                <span class="reader-waves" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="reader-ping" aria-hidden="true"></span>
+                <span class="reader-pad-text"><b>Aproximar crachá</b><small data-pad-machine>Leitor da Prensa 01</small></span>
+              </button>
+            </div>
+          </form>
+
+          <p class="fineprint">Simulação no navegador: clique no leitor ou arraste o crachá até ele. Operadores, máquinas e datas são fictícios.</p>
         </div>
       </div>
     </section>
 
-    <section class="band band--warn" id="risco">
+    <div class="tape" aria-hidden="true" data-tape>
+      <div class="tape-strip">
+        <div class="tape-track">
+          <span>Atenção<i class="icon icon--warn"></i></span>
+          <span>Só opera quem está capacitado<i class="icon icon--warn"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <section class="band band--warn" id="risco" data-sign="warn">
       <div class="wrap sign">
         <div class="symbol" aria-hidden="true">
           <svg viewBox="0 0 120 120">
             <path class="s-warn" d="M60 14l50 90H10z"/>
-            <path class="s-ink" d="M54 44h12l-2 31h-8zM54 81h12v11H54z"/>
+            <path class="s-ink" d="M54 44h12l-2 31h-8zM54 81h12v11H54z" data-mark/>
           </svg>
         </div>
         <div class="sign-body">
@@ -101,7 +129,7 @@
             <span class="sign-word">Atenção</span>
             <span class="sign-message">A máquina não sabe quem está na frente dela.</span>
           </h2>
-          <div class="prose">
+          <div class="prose" data-follow>
             <p>Um controle de acesso comum confere quem é a pessoa. Não confere se ela foi treinada para aquela máquina, nem se o treinamento ainda vale.</p>
             <p>A NR-12 determina que a operação de máquinas seja feita por trabalhadores habilitados, qualificados ou capacitados, e autorizados para isso (item 12.16.1). O LockMachine propõe conferir essa regra no ponto de uso: na própria máquina, antes de ela ligar.</p>
           </div>
@@ -109,91 +137,104 @@
       </div>
     </section>
 
-    <section class="band band--panel" id="funcionamento">
+    <!-- Em tela larga esta seção fica presa enquanto o crachá passa pelas três conferências. -->
+    <section class="band band--panel band--checks" id="funcionamento" data-sign="plain">
       <div class="wrap">
         <h2 class="sign-title">
           <span class="sign-word">Obrigatório</span>
           <span class="sign-message">Três conferências antes de ligar.</span>
         </h2>
 
-        <ol class="steps sign-list" role="list" data-steps>
-          <li class="step sign-item">
-            <div class="sign-item-symbol" aria-hidden="true">
-              <svg viewBox="0 0 120 120">
-                <circle class="s-blue" cx="60" cy="60" r="58"/>
-                <path class="l-white" stroke-width="6" d="M51 36l-8-21M69 36l8-21"/>
-                <rect class="s-white" x="40" y="34" width="40" height="56" rx="6"/>
-                <circle class="s-blue" cx="60" cy="56" r="8"/>
-                <path class="s-blue" d="M46 81c0-9 6-14 14-14s14 5 14 14z"/>
-              </svg>
-              <svg class="step-check" viewBox="0 0 40 40">
-                <rect class="s-white" x="1.5" y="1.5" width="37" height="37" rx="6"/>
-                <path class="l-green" stroke-width="5.5" d="M10 21l7 7 13-15"/>
-              </svg>
-            </div>
-            <div>
-              <h3>Identificar-se</h3>
-              <p>O operador aproxima o crachá RFID do leitor instalado na máquina.</p>
-            </div>
-          </li>
-          <li class="step sign-item">
-            <div class="sign-item-symbol" aria-hidden="true">
-              <svg viewBox="0 0 120 120">
-                <circle class="s-blue" cx="60" cy="60" r="58"/>
-                <rect class="s-white" x="36" y="26" width="48" height="66" rx="5"/>
-                <path class="l-blue" stroke-width="6" d="M46 41h28M46 54h28"/>
-                <circle class="s-blue" cx="60" cy="74" r="9"/>
-              </svg>
-              <svg class="step-check" viewBox="0 0 40 40">
-                <rect class="s-white" x="1.5" y="1.5" width="37" height="37" rx="6"/>
-                <path class="l-green" stroke-width="5.5" d="M10 21l7 7 13-15"/>
-              </svg>
-            </div>
-            <div>
-              <h3>Ter a capacitação exigida</h3>
-              <p>Cada máquina tem uma capacitação exigida. O sistema confere se ela consta no cadastro do operador.</p>
-            </div>
-          </li>
-          <li class="step sign-item">
-            <div class="sign-item-symbol" aria-hidden="true">
-              <svg viewBox="0 0 120 120">
-                <circle class="s-blue" cx="60" cy="60" r="58"/>
-                <path class="l-white" stroke-width="8" stroke-linecap="round" d="M45 27v14M75 27v14"/>
-                <rect class="s-white" x="30" y="35" width="60" height="56" rx="6"/>
-                <path class="s-blue" d="M30 50h60v6H30z"/>
-                <path class="l-blue" stroke-width="7" d="M45 72l9 9 20-20"/>
-              </svg>
-              <svg class="step-check" viewBox="0 0 40 40">
-                <rect class="s-white" x="1.5" y="1.5" width="37" height="37" rx="6"/>
-                <path class="l-green" stroke-width="5.5" d="M10 21l7 7 13-15"/>
-              </svg>
-            </div>
-            <div>
-              <h3>Estar com a validade em dia</h3>
-              <p>Treinamento vencido não libera. A validade é conferida a cada tentativa.</p>
-            </div>
-          </li>
-        </ol>
-
-        <div class="decision">
-          <div class="plate plate--safe">
-            <h3 class="plate-word">Liberado</h3>
-            <p>As três conferências passaram: a máquina pode ser ligada.</p>
+        <div class="checks" data-checks>
+          <div class="check-rail" aria-hidden="true" data-rail>
+            <span class="check-rail-fill" data-rail-fill></span>
+            <svg class="check-pass" viewBox="0 0 40 48" data-pass>
+              <rect class="s-white" x="2" y="6" width="36" height="40" rx="5"/>
+              <rect class="s-ink" x="14" y="2" width="12" height="8" rx="3"/>
+              <circle class="s-ink" cx="20" cy="22" r="6"/>
+              <path class="s-ink" d="M9 40c0-7 4.5-11 11-11s11 4 11 11z"/>
+            </svg>
           </div>
-          <div class="plate plate--stop">
-            <h3 class="plate-word">Bloqueado</h3>
-            <p>Faltou uma: a máquina permanece bloqueada e a tentativa fica registrada.</p>
+
+          <ol class="steps sign-list" role="list">
+            <li class="step sign-item">
+              <div class="sign-item-symbol" aria-hidden="true">
+                <svg viewBox="0 0 120 120">
+                  <circle class="s-blue" cx="60" cy="60" r="58"/>
+                  <path class="l-white" stroke-width="6" d="M51 36l-8-21M69 36l8-21"/>
+                  <rect class="s-white" x="40" y="34" width="40" height="56" rx="6"/>
+                  <circle class="s-blue" cx="60" cy="56" r="8"/>
+                  <path class="s-blue" d="M46 81c0-9 6-14 14-14s14 5 14 14z"/>
+                </svg>
+                <svg class="step-check" viewBox="0 0 40 40">
+                  <rect class="s-white" x="1.5" y="1.5" width="37" height="37" rx="6"/>
+                  <path class="l-green" stroke-width="5.5" d="M10 21l7 7 13-15"/>
+                </svg>
+              </div>
+              <div class="sign-item-text">
+                <h3>Identificar-se</h3>
+                <p>O operador aproxima o crachá RFID do leitor instalado na máquina.</p>
+              </div>
+            </li>
+            <li class="step sign-item">
+              <div class="sign-item-symbol" aria-hidden="true">
+                <svg viewBox="0 0 120 120">
+                  <circle class="s-blue" cx="60" cy="60" r="58"/>
+                  <rect class="s-white" x="36" y="26" width="48" height="66" rx="5"/>
+                  <path class="l-blue" stroke-width="6" d="M46 41h28M46 54h28"/>
+                  <circle class="s-blue" cx="60" cy="74" r="9"/>
+                </svg>
+                <svg class="step-check" viewBox="0 0 40 40">
+                  <rect class="s-white" x="1.5" y="1.5" width="37" height="37" rx="6"/>
+                  <path class="l-green" stroke-width="5.5" d="M10 21l7 7 13-15"/>
+                </svg>
+              </div>
+              <div class="sign-item-text">
+                <h3>Ter a capacitação exigida</h3>
+                <p>Cada máquina tem uma capacitação exigida. O sistema confere se ela consta no cadastro do operador.</p>
+              </div>
+            </li>
+            <li class="step sign-item">
+              <div class="sign-item-symbol" aria-hidden="true">
+                <svg viewBox="0 0 120 120">
+                  <circle class="s-blue" cx="60" cy="60" r="58"/>
+                  <path class="l-white" stroke-width="8" stroke-linecap="round" d="M45 27v14M75 27v14"/>
+                  <rect class="s-white" x="30" y="35" width="60" height="56" rx="6"/>
+                  <path class="s-blue" d="M30 50h60v6H30z"/>
+                  <path class="l-blue" stroke-width="7" d="M45 72l9 9 20-20"/>
+                </svg>
+                <svg class="step-check" viewBox="0 0 40 40">
+                  <rect class="s-white" x="1.5" y="1.5" width="37" height="37" rx="6"/>
+                  <path class="l-green" stroke-width="5.5" d="M10 21l7 7 13-15"/>
+                </svg>
+              </div>
+              <div class="sign-item-text">
+                <h3>Estar com a validade em dia</h3>
+                <p>Treinamento vencido não libera. A validade é conferida a cada tentativa.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="decision" data-decision>
+            <div class="plate plate--safe">
+              <h3 class="plate-word">Liberado</h3>
+              <p>As três conferências passaram: a máquina pode ser ligada.</p>
+            </div>
+            <div class="plate plate--stop">
+              <h3 class="plate-word">Bloqueado</h3>
+              <p>Faltou uma: a máquina permanece bloqueada e a tentativa fica registrada.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="band band--safe" id="beneficios">
+    <section class="band band--safe" id="beneficios" data-sign="safe">
       <div class="wrap sign">
         <div class="symbol" aria-hidden="true">
           <svg viewBox="0 0 120 120">
             <rect class="s-white" x="2" y="2" width="116" height="116" rx="13"/>
-            <path class="l-green" stroke-width="15" d="M28 62l22 22 42-46"/>
+            <path class="l-green" stroke-width="15" pathLength="1" d="M28 62l22 22 42-46" data-draw/>
           </svg>
         </div>
         <div class="sign-body">
@@ -201,7 +242,7 @@
             <span class="sign-word">Segurança</span>
             <span class="sign-message">O que muda no chão de fábrica.</span>
           </h2>
-          <dl class="benefits">
+          <dl class="benefits" data-wipe>
             <div class="benefit">
               <dt>Prevenção</dt>
               <dd>A conferência acontece antes de a máquina ligar, e não depois de um incidente.</dd>
@@ -219,23 +260,23 @@
       </div>
     </section>
 
-    <section class="band" id="registro">
+    <section class="band" id="registro" data-sign="plain">
       <div class="wrap record">
         <div class="record-text">
-          <h2>Quem supervisiona vê cada tentativa.</h2>
-          <p class="prose">As tentativas que você fez no topo da página aparecem ao lado, do jeito que chegariam ao supervisor. No painel, elas entram junto com a situação das máquinas.</p>
-          <p class="notice"><span class="icon icon--warn" aria-hidden="true"></span><span>Demonstração: o painel usa dados ilustrativos e o login não autentica. O leitor físico e o banco de dados são as próximas etapas do projeto.</span></p>
-          <div class="actions">
+          <h2 data-follow>Quem supervisiona vê cada tentativa.</h2>
+          <p class="prose" data-follow>As tentativas que você fez no topo da página aparecem ao lado, do jeito que chegariam ao supervisor. No painel, elas entram junto com a situação das máquinas.</p>
+          <p class="notice" data-follow><span class="icon icon--warn" aria-hidden="true"></span><span>Demonstração: o painel usa dados ilustrativos e o login não autentica. O leitor físico e o banco de dados são as próximas etapas do projeto.</span></p>
+          <div class="actions" data-follow>
             <a class="button" href="tela_de_login.html">Abrir o painel de demonstração<span class="icon icon--arrow" aria-hidden="true"></span></a>
           </div>
         </div>
 
-        <div class="log-plate">
+        <div class="log-plate" data-follow>
           <div class="log-head">
             <h3 class="label">Registro de tentativas</h3>
             <span>desta sessão</span>
           </div>
-          <p class="log-empty" data-log-empty>Nenhuma tentativa ainda. Aproxime um crachá no topo da página.</p>
+          <p class="log-empty" data-log-empty>Nenhuma tentativa ainda. Leve um crachá ao leitor no topo da página.</p>
           <ul class="log-list" role="list" data-log></ul>
         </div>
       </div>
@@ -252,6 +293,7 @@
 
   <script src="../assets/vendor/gsap/gsap.min.js"></script>
   <script src="../assets/vendor/gsap/ScrollTrigger.min.js"></script>
+  <script src="../assets/vendor/gsap/SplitText.min.js"></script>
   <script src="../assets/js/base.js"></script>
   <script src="script.js"></script>
 </body>
