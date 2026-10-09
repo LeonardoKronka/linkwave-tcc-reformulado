@@ -22,7 +22,7 @@ linkwave-tcc-reformulado/
   assets/
     css/base.css                      sistema visual: tokens, tipos, faixas, placas, material, fita
     js/head.js                        carregado no <head> de toda página: marca .js, decide o movimento (.motion) e avisa transição entre páginas
-    js/base.js                        menu, moldura e parafusos, abertura, entradas, fita, mouse (GSAP)
+    js/base.js                        menu, chave das animações, abertura, entradas, fita, mouse (GSAP)
     fonts/                            Archivo e Martian Mono, com as licenças OFL
     vendor/gsap/                      gsap, ScrollTrigger e SplitText (3.15.0)
   institucional/                      site da LinkWave (marca azul)
@@ -53,8 +53,8 @@ O mundo é a placa de segurança industrial. A cor nunca decora, sempre signific
 - A palavra de sinal (`.sign-word`) é o título da seção; nunca use rótulo pequeno acima de título.
 - Situação sempre traz cor, forma e palavra (`.status`).
 - Todo trecho de demonstração leva um aviso amarelo (`.notice`).
-- A placa é uma chapa esmaltada: sombra curta (`--shadow-plate`), filete duplo em relevo que desvia de cada parafuso, parafusos de aço e brilho. Nada de sombra dura, degradê em texto, vidro fosco ou foto escura de fábrica.
-- Nenhuma seção troca de cor numa linha reta: as placas têm os cantos de fora arredondados e se sobrepõem. Quando uma placa (colorida ou branca) vem logo antes de outra, ela leva `.band--under`. O grupo pediu isso, o filete e os parafusos novos em 09/10/2026.
+- A placa é uma chapa esmaltada lisa: cantos arredondados, sombra curta (`--shadow-plate`) e brilho. Sem moldura, sem filete e sem parafusos: o grupo testou e preferiu o visual minimalista (09/10/2026). Nada de sombra dura, degradê em texto, vidro fosco ou foto escura de fábrica.
+- Nenhuma seção troca de cor numa linha reta: as placas têm os cantos de fora arredondados e se sobrepõem. Quando uma placa (colorida ou branca) vem logo antes de outra, ela leva `.band--under`. O grupo pediu isso em 09/10/2026.
 - Ícones são SVG desenhados (`.icon--*` em `base.css`); não use seta ou símbolo de teclado como ícone.
 - Fonte monoespaçada (`.data`) só para dado medido: RFID, horário, data, código.
 

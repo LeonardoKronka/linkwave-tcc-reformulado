@@ -104,11 +104,6 @@
 
 /* Página de projetos: a placa inteira é o link -------------------------------- */
 .featured {
-  /* Chapa grande: a ferragem volta ao tamanho das placas principais */
-  --frame: 0.75rem;
-  --keyline: 3px;
-  --keyline-thin: 1.5px;
-  --screw: 1rem;
   display: grid;
   gap: clamp(1.5rem, 1rem + 3vw, 3rem);
   align-items: center;

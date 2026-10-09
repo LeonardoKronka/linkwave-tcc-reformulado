@@ -58,7 +58,7 @@ linkwave-tcc-reformulado/
 ├── assets/
 │   ├── css/base.css            sistema visual: cores, tipos, placas, material
 │   ├── js/head.js              preparo da página antes de ela aparecer
-│   ├── js/base.js              menu, moldura e parafusos, animações comuns
+│   ├── js/base.js              menu e animações comuns aos dois sites
 │   ├── fonts/                  Archivo e Martian Mono (com as licenças)
 │   └── vendor/gsap/            GSAP, ScrollTrigger e SplitText
 ├── institucional/

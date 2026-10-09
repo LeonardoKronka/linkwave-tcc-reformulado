@@ -19,7 +19,7 @@ Não é necessário instalar Node.js, banco de dados, PHP ou TypeScript. Fontes 
 index.html                          entrada do projeto
 assets/css/base.css                 sistema visual compartilhado
 assets/js/head.js                   preparo da página antes de ela aparecer
-assets/js/base.js                   menu, moldura e parafusos, animações comuns
+assets/js/base.js                   menu e animações comuns aos dois sites
 assets/fonts/                       fontes Archivo e Martian Mono
 assets/vendor/gsap/                 biblioteca de animação GSAP e dois plugins
 institucional/index.html            site da LinkWave
