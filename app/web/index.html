@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!--
+    O alvo do aplicativo é o Android. Esta página existe para ver as telas no
+    navegador durante o desenvolvimento (flutter run -d chrome).
+
+    O valor abaixo é trocado pelo Flutter na hora de compilar
+    (opção "--base-href" do "flutter build web").
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta name="description" content="Aplicativo do LockMachine para supervisores e operadores (TCC SENAI 2026).">
+  <meta name="theme-color" content="#131614">
+
+  <!-- Ícones e nome ao instalar como atalho -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="LockMachine">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <title>LockMachine</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Cor de parede enquanto o aplicativo carrega, para não piscar em branco. -->
+  <style>
+    body {
+      margin: 0;
+      background: #e3e6e2;
+    }
+  </style>
+</head>
+<body>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

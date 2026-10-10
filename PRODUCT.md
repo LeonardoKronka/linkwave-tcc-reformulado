@@ -30,12 +30,12 @@ Chão de fábrica: prensas, tornos e fresas; o operador diante da máquina; o su
 
 ## Capabilities and Constraints
 
-- O repositório contém só o front-end: HTML, CSS e JavaScript, sem build e sem back-end, aberto com Live Server.
+- O site é só front-end: HTML, CSS e JavaScript, sem build e sem back-end, aberto com Live Server.
 - Login e dashboard são demonstrações: não há autenticação e os dados são ilustrativos.
 - Hoje não existe protótipo físico, leitor RFID, banco de dados nem back-end (confirmado em 08/10/2026). Nada no site pode sugerir o contrário.
 - As telas "Acessos", "Máquinas" e "Operadores" ainda não existem.
 - Interface em português do Brasil.
-- Decidido em 09/10/2026 para a apresentação (ver `docs/plano-apresentacao.md`): leitor com ESP32 e RFID, servidor em PHP + MySQL, painel com cadastro pelo administrador e app Flutter para Android. Nada disso existe ainda.
+- Decidido em 09/10/2026 para a apresentação (ver `docs/plano-apresentacao.md`): leitor com ESP32 e RFID, servidor em PHP + MySQL, painel com cadastro pelo administrador e app Flutter para Android. Do app existe o projeto e uma tela de login demonstrativa, que confere contas de teste e não fala com servidor (10/10/2026). O resto ainda não existe.
 - Em aberto: a data exata e o formato da apresentação.
 
 ## Brand Commitments

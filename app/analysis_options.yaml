@@ -1,0 +1,13 @@
+# Regras do analisador: o conjunto recomendado pelo Flutter.
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - web/**
+
+# O formatador (dart format, ou salvar o arquivo no VS Code) quebra as linhas
+# nesta largura.
+formatter:
+  page_width: 120

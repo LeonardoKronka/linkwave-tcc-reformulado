@@ -7,7 +7,7 @@ Guia do projeto para o Claude. Responda e escreva sempre em português do Brasil
 - **LinkWave**: a equipe/empresa fictícia do TCC. Tem um site institucional.
 - **LockMachine**: o produto do TCC. Controle de acesso a máquinas industriais: o operador aproxima o crachá RFID, o sistema confere se a capacitação dele é válida para aquela máquina e libera ou bloqueia.
 
-O repositório contém só o front-end: HTML, CSS e JavaScript, sem Node, sem build, sem banco de dados e sem back-end.
+O repositório contém o site (HTML, CSS e JavaScript, sem Node e sem build) e, desde 10/10/2026, o começo do app Flutter em `app/` (projeto e tela de login demonstrativa). Não há banco de dados nem back-end.
 
 Próxima etapa, decidida em 09/10/2026 para a apresentação (em 1 a 2 meses): leitor de verdade com ESP32 + RC522, servidor em PHP + MySQL no XAMPP (é o que o grupo aprendeu; sem framework), painel com login e cadastro de funcionários e máquinas pelo administrador, e app Flutter para Android (supervisor acompanha, operador consulta as capacitações). O plano, com o mínimo de cada peça, as semanas e quem faz o quê, está em [docs/plano-apresentacao.md](docs/plano-apresentacao.md).
 
@@ -17,7 +17,7 @@ Antes de mexer em produto ou visual, leia [PRODUCT.md](PRODUCT.md) (o que é ver
 
 ```text
 PRODUCT.md  DESIGN.md  docs/estrategia.md  docs/plano-apresentacao.md
-.claude/launch.json  .claude/serve.ps1   servidor local para pré-visualização (porta 4173)
+.claude/launch.json  .claude/serve.ps1   servidor local para pré-visualização (site na porta 4173, app na 4174)
 .vscode/settings.json                    porta do Live Server (5502)
 linkwave-tcc-reformulado/
   index.html                          só redireciona para institucional/index.html
@@ -34,9 +34,18 @@ linkwave-tcc-reformulado/
     tela_de_login.html                login demonstrativo
     dashboard.html                    painel demonstrativo
     style.css  script.js  img/
+app/                                  app Flutter para Android (ver app/README.md)
+  lib/main.dart  lib/app.dart         entrada; tema e troca entre login e tela inicial
+  lib/theme/                          tokens.dart (cores e medidas), type.dart (textos), theme.dart
+  lib/auth/                           sessão, contrato do login e contas de teste (FakeAuthService)
+  lib/login/  lib/home/               tela de login e tela provisória depois dele
+  lib/widgets/                        placa, palavra de sinal, botão, campo, aviso, marca, ícones
+  test/                               testes do login
+  assets/fonts/                       Archivo e Martian Mono em TTF, com as licenças OFL
+  android/  web/                      gerados pelo Flutter
 ```
 
-`base.css` é a fonte da verdade do visual. Cada parte tem um `style.css` e um `script.js` só com o que é específico dela; o que serve aos dois sites fica em `assets/`.
+`base.css` é a fonte da verdade do visual. Cada parte tem um `style.css` e um `script.js` só com o que é específico dela; o que serve aos dois sites fica em `assets/`. O app repete as cores e medidas em `app/lib/theme/tokens.dart`: mudou no `base.css`, mude lá também.
 
 ## Como rodar
 
@@ -47,6 +56,8 @@ Não há testes automatizados nem linter. A verificação é abrir no navegador,
 Com o painel do navegador do Claude oculto, as animações ficam pausadas e as capturas falham. Nesse caso, avance o relógio com `gsap.updateRoot(...)` e confira os estados pelo DOM; diga ao Leonardo que o movimento não foi visto rodando.
 
 Se o site abrir parado, confira primeiro o sistema: os computadores do SENAI costumam vir com os efeitos de animação do Windows desligados (Configurações → Acessibilidade → Efeitos visuais), e aí o navegador informa `prefers-reduced-motion: reduce`. Nesse caso o rodapé mostra a chave "Ligar animações" (ver Convenções do código).
+
+O app precisa do Flutter (3.47 ou mais novo). Dentro de `app/`: `flutter pub get`, depois `flutter run -d chrome` para ver no navegador ou `flutter run` com um celular Android ligado (aí precisa também do Android Studio; `flutter doctor` diz o que falta). Antes de qualquer commit no app, rodar `flutter analyze` e `flutter test`, e dizer ao Leonardo se algum dos dois não pôde ser rodado. Para o Claude pré-visualizar: `flutter build web --no-web-resources-cdn` e o servidor `app` do `.claude/launch.json` (porta 4174), que entrega `app/build/web`.
 
 ## Sistema visual
 
@@ -75,6 +86,19 @@ O mundo é a placa de segurança industrial. A cor nunca decora, sempre signific
 - Animação declarada no HTML por atributos: `data-sign` (entrada da placa), `data-follow`, `data-mount`, `data-roll`, `data-wipe`, `data-tilt`, `data-tape`, `data-draw` (traço com `pathLength="1"`), `data-vt` (placa que viaja entre páginas).
 - A página precisa funcionar sem JavaScript: o menu fica aberto e o conteúdo aparece.
 
+## Convenções do app
+
+O app segue o mesmo sistema visual e as mesmas regras de honestidade do site. O que muda é a ferramenta.
+
+- Nomes de classe, variável e função em inglês; comentários e textos da tela em português. Caixa alta é posta pelo widget (`toUpperCase()`), e o texto é escrito normalmente.
+- Cores só por `AppColors`, medidas por `AppSizes` e textos por `AppText` (`lib/theme/`). A Archivo é variável: peso e largura vão em `fontVariations`.
+- Componentes prontos em `lib/widgets/`: `Plate` e `PlateHead` (placa com a palavra de sinal), `PlateButton`, `PlateField`, `Notice`, `AppIcon`, `Brand`. Tela nova usa esses, não os botões e cartões padrão do Material.
+- Só o que vem com o Flutter. Não adicionar pacote de terceiros (gerência de estado, rotas, ícones, fontes pela internet) sem o Leonardo pedir. O pacote `http` entra quando a API existir.
+- A tela conversa com contratos (`AuthService`), não com a implementação. Dado falso fica numa classe `Fake...` e some quando a API chegar.
+- Movimento: as mesmas ideias do site (a placa é fixada, as letras giram, a cabeça vira, a placa balança). Tudo precisa parar quando `MediaQuery.disableAnimationsOf(context)` for verdadeiro: o estado muda na hora.
+- Todo trecho de demonstração ou em construção leva um `Notice` amarelo.
+- Cada tela nova ganha teste em `app/test/`.
+
 ## O que é demonstração
 
 - Hoje não existe protótipo físico, leitor RFID, banco de dados nem back-end. Nada no site ou na documentação pode sugerir o contrário.
@@ -82,6 +106,7 @@ O mundo é a placa de segurança industrial. A cor nunca decora, sempre signific
 - O login não autentica: com e-mail e senha preenchidos, só redireciona para `dashboard.html`.
 - Os números, as linhas e o gráfico do painel são ilustrativos e fixos no HTML (o gráfico é desenhado a partir da tabela "Tentativas por hora"). O JavaScript acrescenta a data e as tentativas feitas no simulador (guardadas em `sessionStorage`).
 - "Acessos", "Máquinas" e "Operadores" estão marcados "Em breve" e não têm tela.
+- O app tem só o login, que confere contas de teste fixas no `FakeAuthService` e não fala com servidor nenhum. Depois do login há uma tela provisória com um aviso de "em construção"; as telas do supervisor e do operador não existem. Ele só foi visto no navegador, ainda não em um celular Android.
 - A citação da NR-12 (item 12.16.1) foi conferida em fontes jurídicas, não no texto oficial. A equipe ainda vai validar com o orientador.
 
 ## Equipe
@@ -94,6 +119,7 @@ O Leonardo faz com o Claude as mudanças de visual e de funcionalidade do site, 
 
 - Repositório: https://github.com/LeonardoKronka/linkwave-tcc-reformulado (branch principal `main`).
 - O redesenho está na branch `redesign` e só entra na `main` quando o Leonardo aprovar.
+- O app está na branch `app`, criada a partir da `redesign` em 10/10/2026. O plano da apresentação pede uma pasta e uma branch por peça; quem junta na `main` é o Leonardo.
 - O Leonardo trabalha em duas máquinas (PC de casa e notebook do SENAI). Antes de começar qualquer alteração, rodar `git pull`. Ao terminar, commit e `git push`.
 - Mensagens de commit em português, curtas, dizendo o que mudou.
 - Pedir confirmação ao Leonardo antes de qualquer `git push`.

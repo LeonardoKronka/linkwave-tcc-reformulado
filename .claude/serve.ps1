@@ -1,5 +1,6 @@
 # Servidor estático mínimo para pré-visualizar o site sem instalar nada.
 # Uso: powershell -File .claude/serve.ps1   (depois abra http://localhost:4173/)
+# Para o app compilado: powershell -File .claude/serve.ps1 -Port 4174 -Root app/build/web
 param(
   [int]$Port = 4173,
   [string]$Root = (Join-Path $PSScriptRoot "..\linkwave-tcc-reformulado")
@@ -17,6 +18,9 @@ $mime = @{
   ".ico" = "image/x-icon"
   ".woff2" = "font/woff2"
   ".txt" = "text/plain; charset=utf-8"
+  # Usados pelo app Flutter compilado para navegador (app/build/web)
+  ".mjs" = "text/javascript; charset=utf-8"
+  ".wasm" = "application/wasm"
 }
 
 $listener = New-Object System.Net.HttpListener

@@ -1,0 +1,38 @@
+name: lockmachine
+description: "Aplicativo do LockMachine para supervisores e operadores (TCC SENAI 2026)."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.13.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Textos do próprio Flutter (menu de copiar e colar, leitor de tela) em português.
+  # Vem junto com o Flutter: não é biblioteca de terceiros.
+  flutter_localizations:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Licenças das fontes: precisam acompanhar o aplicativo.
+  assets:
+    - assets/fonts/OFL-Archivo.txt
+    - assets/fonts/OFL-MartianMono.txt
+
+  # As mesmas fontes do site. São variáveis: um arquivo só traz todos os pesos
+  # e larguras, escolhidos no código (lib/theme/type.dart).
+  fonts:
+    - family: Archivo
+      fonts:
+        - asset: assets/fonts/archivo-variable.ttf
+    - family: Martian Mono
+      fonts:
+        - asset: assets/fonts/martian-mono-variable.ttf

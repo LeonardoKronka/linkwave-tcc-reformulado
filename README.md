@@ -18,13 +18,14 @@ Se as três passam, a máquina é liberada. Se falta uma, ela permanece bloquead
 
 ## O que há neste repositório
 
-O front-end do projeto, feito com HTML, CSS e JavaScript, sem etapa de build:
+O site do projeto, feito com HTML, CSS e JavaScript, sem etapa de build, e o começo do aplicativo, feito em Flutter:
 
-| Parte | Pasta | Páginas |
+| Parte | Pasta | O que tem |
 | --- | --- | --- |
 | Site institucional da LinkWave | `linkwave-tcc-reformulado/institucional/` | `index.html`, `projetos.html` |
 | Apresentação e demonstração do LockMachine | `linkwave-tcc-reformulado/lockmachine_app/` | `sobre.html`, `tela_de_login.html`, `dashboard.html` |
-| Base compartilhada | `linkwave-tcc-reformulado/assets/` | estilos, scripts, fontes e a biblioteca GSAP |
+| Base compartilhada do site | `linkwave-tcc-reformulado/assets/` | estilos, scripts, fontes e a biblioteca GSAP |
+| Aplicativo para Android | `app/` | projeto Flutter com a tela de login (ver [app/README.md](app/README.md)) |
 
 ### Estado atual
 
@@ -34,6 +35,7 @@ Esta fase é uma **demonstração**:
 - O login aceita qualquer e-mail válido e qualquer senha. Não há autenticação.
 - Os dados do painel, incluindo o gráfico de tentativas por hora, são ilustrativos. As tentativas que você faz no simulador aparecem nele durante a mesma sessão do navegador.
 - As telas "Acessos", "Máquinas" e "Operadores" ainda não foram construídas.
+- O aplicativo tem só a tela de login, que confere contas de teste fixas no código, sem servidor. As telas do supervisor e do operador ainda não foram feitas.
 - O leitor RFID físico, o banco de dados e o back-end ainda não existem.
 
 ## Como abrir
@@ -47,6 +49,8 @@ Esta fase é uma **demonstração**:
 4. Clique com o botão direito em `linkwave-tcc-reformulado/index.html` e escolha **Open with Live Server**.
 
 Não é necessário instalar Node.js, banco de dados, PHP ou TypeScript. O site funciona sem internet: fontes e biblioteca de animação estão dentro do projeto.
+
+O aplicativo é à parte: precisa do Flutter instalado e as instruções estão em [app/README.md](app/README.md).
 
 Se o site abrir parado, é porque o computador está configurado para reduzir animações (comum nos computadores do SENAI). No fim da página aparece o botão **Ligar animações**: a escolha fica guardada no navegador e vale para todas as páginas.
 
@@ -74,6 +78,8 @@ linkwave-tcc-reformulado/
     ├── style.css               o que é só do LockMachine
     ├── script.js               simulador, conferências, registro, login, painel e gráfico
     └── img/
+
+app/                            aplicativo Flutter (organização em app/README.md)
 ```
 
 ## Documentos do projeto
@@ -96,7 +102,8 @@ linkwave-tcc-reformulado/
 ## Créditos e licenças
 
 - [GSAP](https://gsap.com) 3.15.0, sob a licença padrão gratuita da GreenSock.
-- Fontes [Archivo](https://fonts.google.com/specimen/Archivo) e [Martian Mono](https://fonts.google.com/specimen/Martian+Mono), sob a SIL Open Font License. Os textos das licenças estão em `linkwave-tcc-reformulado/assets/fonts/`.
+- Fontes [Archivo](https://fonts.google.com/specimen/Archivo) e [Martian Mono](https://fonts.google.com/specimen/Martian+Mono), sob a SIL Open Font License. Os textos das licenças estão em `linkwave-tcc-reformulado/assets/fonts/` e em `app/assets/fonts/`.
+- [Flutter](https://flutter.dev), sob a licença BSD, no aplicativo.
 
 ## Próximos passos
 
@@ -105,5 +112,5 @@ O caminho até a apresentação está em [docs/plano-apresentacao.md](docs/plano
 - Leitor de verdade: ESP32 com módulo RFID, luz verde e vermelha e um relé que liga a "máquina"
 - Servidor em PHP e banco MySQL, com a regra de acesso
 - Painel com login e cadastro de funcionários e máquinas pelo administrador
-- App Flutter para Android: o supervisor acompanha as tentativas e o operador consulta as capacitações
+- App Flutter para Android: o supervisor acompanha as tentativas e o operador consulta as capacitações (já tem o projeto e a tela de login; faltam as telas e a ligação com o servidor)
 - Publicar o site com GitHub Pages

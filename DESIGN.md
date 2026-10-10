@@ -90,6 +90,8 @@ O sistema recusa o padrão da categoria: foto escura de fábrica em tela cheia c
 
 A fonte da verdade é `linkwave-tcc-reformulado/assets/css/base.css`. Os dois sites só acrescentam o que é específico de cada um.
 
+O app Flutter (`app/`) usa o mesmo sistema. Ele repete as cores e medidas em `app/lib/theme/tokens.dart` e as vozes do texto em `app/lib/theme/type.dart`; os componentes ficam em `app/lib/widgets/`. Uma mudança no `base.css` precisa ser repetida lá.
+
 ## Colors
 
 ### Primary
