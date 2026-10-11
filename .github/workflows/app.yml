@@ -1,0 +1,65 @@
+# Verificação automática do app.
+#
+# A cada envio que mexe na pasta app/, o GitHub instala o Flutter numa máquina
+# limpa, analisa o código e roda os testes. O resultado aparece na aba
+# "Actions" do repositório: verde passou, vermelho tem algo para corrigir.
+name: App
+
+on:
+  push:
+    paths:
+      - "app/**"
+      - ".github/workflows/app.yml"
+  pull_request:
+    paths:
+      - "app/**"
+      - ".github/workflows/app.yml"
+  # Deixa rodar à mão, pelo botão "Run workflow" da aba Actions.
+  workflow_dispatch:
+
+# A verificação só lê o repositório: não altera nada.
+permissions:
+  contents: read
+
+# Um envio novo na mesma branch cancela a verificação do anterior.
+concurrency:
+  group: app-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # A mesma versão do Flutter usada no desenvolvimento. Ao atualizar o Flutter
+  # nos computadores do grupo, mude aqui também.
+  FLUTTER_VERSION: "3.47.7"
+
+jobs:
+  check:
+    name: Analisar e testar
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: app
+
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v7
+
+      - name: Instalar o Flutter
+        working-directory: ${{ runner.temp }}
+        run: |
+          git clone --quiet --depth 1 --branch "$FLUTTER_VERSION" https://github.com/flutter/flutter.git
+          echo "$PWD/flutter/bin" >> "$GITHUB_PATH"
+
+      - name: Preparar o Flutter
+        run: |
+          flutter --disable-analytics
+          flutter --version
+
+      - name: Baixar as dependências
+        run: flutter pub get
+
+      - name: Analisar o código
+        run: flutter analyze
+
+      - name: Rodar os testes
+        run: flutter test

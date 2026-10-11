@@ -6,6 +6,10 @@ import 'package:flutter/widgets.dart';
 ///
 /// Com [flip], as letras giram no eixo horizontal como plaquetas, uma a uma.
 /// Quando a animação termina, a palavra volta a ser um texto corrido.
+///
+/// Uma palavra de sinal nunca é cortada no meio: se a mais longa não couber
+/// na largura (tela estreita, letra ampliada no sistema), a letra diminui
+/// até caber.
 class SignWord extends StatelessWidget {
   const SignWord(this.text, {super.key, required this.style, this.flip});
 
@@ -27,44 +31,69 @@ class SignWord extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final label = text.toUpperCase();
-    final plain = Text(label, style: style, semanticsLabel: text);
-    final flip = this.flip;
-    if (flip == null) return plain;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final label = text.toUpperCase();
+        final fitted = _fit(context, label, constraints.maxWidth);
+        final plain = Text(label, style: fitted, semanticsLabel: text);
+        final flip = this.flip;
+        if (flip == null) return plain;
 
-    return AnimatedBuilder(
-      animation: flip,
-      builder: (context, _) {
-        if (flip.value >= 1) return plain;
-        return Semantics(
-          label: text,
-          child: ExcludeSemantics(child: _letters(context, label, flip.value)),
+        return AnimatedBuilder(
+          animation: flip,
+          builder: (context, _) {
+            if (flip.value >= 1) return plain;
+            return Semantics(
+              label: text,
+              child: ExcludeSemantics(child: _letters(context, label, fitted, flip.value)),
+            );
+          },
         );
       },
     );
   }
 
+  /// O estilo com o tamanho de letra em que a palavra mais longa cabe em [maxWidth].
+  TextStyle _fit(BuildContext context, String label, double maxWidth) {
+    if (!maxWidth.isFinite) return style;
+
+    var widest = 0.0;
+    for (final word in label.split(' ')) {
+      widest = math.max(widest, _measure(context, word, style));
+    }
+    if (widest <= maxWidth) return style;
+
+    final size = style.fontSize ?? DefaultTextStyle.of(context).style.fontSize ?? 14;
+    return style.copyWith(fontSize: size * maxWidth / widest);
+  }
+
   /// A palavra separada em letras, cada uma no seu ponto do giro.
-  Widget _letters(BuildContext context, String label, double progress) {
+  Widget _letters(BuildContext context, String label, TextStyle style, double progress) {
     final elapsed = progress * flipDuration(text).inMicroseconds;
     var index = 0;
 
     return Wrap(
-      spacing: _spaceWidth(context),
+      spacing: _measure(context, ' ', style),
       children: [
         for (final word in label.split(' '))
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (final letter in word.characters)
-                _tile(letter, (elapsed - _stagger.inMicroseconds * index++) / _letterTime.inMicroseconds),
-            ],
+          // Letra por letra a palavra pode ficar um fio mais larga do que
+          // inteira; o FittedBox garante que ela nunca passe da borda.
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (final letter in word.characters)
+                  _tile(letter, style, (elapsed - _stagger.inMicroseconds * index++) / _letterTime.inMicroseconds),
+              ],
+            ),
           ),
       ],
     );
   }
 
-  Widget _tile(String letter, double time) {
+  Widget _tile(String letter, TextStyle style, double time) {
     final turn = Curves.easeOutExpo.transform(time.clamp(0, 1));
     return Opacity(
       opacity: turn,
@@ -79,13 +108,13 @@ class SignWord extends StatelessWidget {
     );
   }
 
-  /// Largura de um espaço neste estilo, para as palavras ficarem à mesma
-  /// distância do texto corrido.
-  double _spaceWidth(BuildContext context) {
+  /// Largura de [piece] em uma linha só, do jeito que o Text vai desenhar.
+  double _measure(BuildContext context, String piece, TextStyle style) {
     final painter = TextPainter(
-      text: TextSpan(text: ' ', style: DefaultTextStyle.of(context).style.merge(style)),
+      text: TextSpan(text: piece, style: DefaultTextStyle.of(context).style.merge(style)),
       textDirection: TextDirection.ltr,
       textScaler: MediaQuery.textScalerOf(context),
+      maxLines: 1,
     )..layout();
     final width = painter.width;
     painter.dispose();

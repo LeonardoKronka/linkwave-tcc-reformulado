@@ -24,7 +24,11 @@ São as mesmas pessoas fictícias do site: o supervisor do painel e os três ope
 
 ## Como rodar
 
-É preciso ter o [Flutter](https://docs.flutter.dev/install) instalado (versão 3.47 ou mais nova). Dentro desta pasta (`app/`), baixe as dependências:
+É preciso ter o [Flutter](https://docs.flutter.dev/install) instalado (versão 3.47 ou mais nova).
+
+**No Windows, o jeito mais simples:** dois cliques no arquivo `abrir-no-chrome.bat`, que fica nesta pasta. Em cerca de meio minuto o aplicativo abre numa janela do Chrome. Para fechar, feche a janela preta que abriu junto.
+
+**Pelo terminal**, dentro desta pasta (`app/`), baixe as dependências:
 
 ```bash
 flutter pub get
@@ -56,6 +60,10 @@ Os testes abrem o aplicativo e conferem o login (campos vazios, senha errada, su
 flutter test
 ```
 
+O GitHub repete essas duas conferências sozinho a cada envio que mexe nesta pasta. O resultado aparece na aba **Actions** do repositório: verde passou, vermelho tem algo para corrigir. A receita está em `.github/workflows/app.yml`.
+
+Em computador com o Smart App Control do Windows ligado, o `flutter test` pode ser bloqueado. Nesse caso, quem confere os testes é o GitHub.
+
 ## Organização
 
 ```text
@@ -76,6 +84,7 @@ lib/
 test/                       testes do login e das contas de teste
 assets/fonts/               Archivo e Martian Mono, com as licenças
 android/  web/              o que cada plataforma precisa (gerado pelo Flutter)
+abrir-no-chrome.bat         atalho do Windows para ver o aplicativo no Chrome
 ```
 
 Nomes de classe, variável e função ficam em inglês; comentários e textos da tela, em português. O aplicativo usa só o que vem com o Flutter, sem pacotes de terceiros.

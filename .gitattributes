@@ -1,3 +1,7 @@
 # Arquivos de terceiros ficam exatamente como foram publicados
 linkwave-tcc-reformulado/assets/vendor/** -text
 *.woff2 binary
+*.ttf binary
+
+# Arquivos de lote do Windows precisam das quebras de linha do Windows
+*.bat text eol=crlf

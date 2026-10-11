@@ -19,6 +19,7 @@ Antes de mexer em produto ou visual, leia [PRODUCT.md](PRODUCT.md) (o que é ver
 PRODUCT.md  DESIGN.md  docs/estrategia.md  docs/plano-apresentacao.md
 .claude/launch.json  .claude/serve.ps1   servidor local para pré-visualização (site na porta 4173, app na 4174)
 .vscode/settings.json                    porta do Live Server (5502)
+.github/workflows/app.yml                verificação automática do app no GitHub (analisador e testes)
 linkwave-tcc-reformulado/
   index.html                          só redireciona para institucional/index.html
   assets/
@@ -43,6 +44,7 @@ app/                                  app Flutter para Android (ver app/README.m
   test/                               testes do login
   assets/fonts/                       Archivo e Martian Mono em TTF, com as licenças OFL
   android/  web/                      gerados pelo Flutter
+  abrir-no-chrome.bat                 atalho do Windows: dois cliques abrem o app no Chrome
 ```
 
 `base.css` é a fonte da verdade do visual. Cada parte tem um `style.css` e um `script.js` só com o que é específico dela; o que serve aos dois sites fica em `assets/`. O app repete as cores e medidas em `app/lib/theme/tokens.dart`: mudou no `base.css`, mude lá também.
@@ -57,7 +59,7 @@ Com o painel do navegador do Claude oculto, as animações ficam pausadas e as c
 
 Se o site abrir parado, confira primeiro o sistema: os computadores do SENAI costumam vir com os efeitos de animação do Windows desligados (Configurações → Acessibilidade → Efeitos visuais), e aí o navegador informa `prefers-reduced-motion: reduce`. Nesse caso o rodapé mostra a chave "Ligar animações" (ver Convenções do código).
 
-O app precisa do Flutter (3.47 ou mais novo). Dentro de `app/`: `flutter pub get`, depois `flutter run -d chrome` para ver no navegador ou `flutter run` com um celular Android ligado (aí precisa também do Android Studio; `flutter doctor` diz o que falta). Antes de qualquer commit no app, rodar `flutter analyze` e `flutter test`, e dizer ao Leonardo se algum dos dois não pôde ser rodado. Para o Claude pré-visualizar: `flutter build web --no-web-resources-cdn` e o servidor `app` do `.claude/launch.json` (porta 4174), que entrega `app/build/web`.
+O app precisa do Flutter (3.47 ou mais novo). Dentro de `app/`: `flutter pub get`, depois `flutter run -d chrome` para ver no navegador ou `flutter run` com um celular Android ligado (aí precisa também do Android Studio; `flutter doctor` diz o que falta). Para o Leonardo ver o app sem terminal: dois cliques em `app/abrir-no-chrome.bat`. Antes de qualquer commit no app, rodar `flutter analyze` e `flutter test`, e dizer ao Leonardo se algum dos dois não pôde ser rodado. A cada push que mexe em `app/`, o GitHub roda os dois de novo (`.github/workflows/app.yml`, aba Actions): depois de enviar, conferir se a verificação passou e avisar o Leonardo do resultado. Para o Claude pré-visualizar: `flutter build web --no-web-resources-cdn` e o servidor `app` do `.claude/launch.json` (porta 4174), que entrega `app/build/web`.
 
 ## Sistema visual
 
